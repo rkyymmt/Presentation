@@ -76,6 +76,7 @@
 		71A37ABF1B83007100962116 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		71A37AC11B83008C00962116 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		71A37AC21B83008C00962116 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		71A37AC51B83345B00962116 /* Presentation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Presentation.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +127,7 @@
 		71A37A6E1B82F82C00962116 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				71A37AC51B83345B00962116 /* Presentation.entitlements */,
 				71A37A731B82F82C00962116 /* AppDelegate.h */,
 				71A37A741B82F82C00962116 /* AppDelegate.m */,
 				71A37A761B82F82C00962116 /* ViewController.h */,
@@ -256,6 +258,12 @@
 				TargetAttributes = {
 					71A37A6B1B82F82C00962116 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 4UP899V36T;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					71A37A841B82F82C00962116 = {
 						CreatedOnToolsVersion = 6.4;
@@ -470,9 +478,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Presentation/Presentation.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Presentation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -480,9 +492,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Presentation/Presentation.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Presentation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -1,15 +1,7 @@
-//
-//  AppDelegate.m
-//  Presentation
-//
-//  Created by Takeshi Shoji on 2015/08/18.
-//  Copyright (c) 2015年 Logbar Inc. All rights reserved.
-//
-
 #import "AppDelegate.h"
+#import "Common.h"
 
 @interface AppDelegate ()
-
 @end
 
 @implementation AppDelegate
@@ -40,6 +32,15 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application
+        openURL:(NSURL *)url
+        sourceApplication:(NSString *)sourceApplication
+        annotation:(id)annotation
+{
+  _L();
+  return YES;
 }
 
 @end
