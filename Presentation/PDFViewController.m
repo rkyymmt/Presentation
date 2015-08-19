@@ -1,8 +1,10 @@
 #import "PDFViewController.h"
 #import "Common.h"
 #import "FileManager.h"
+#import "NavigationBar.h"
+#import <CoreRing/CoreRing.h>
 
-@interface PDFViewController () <UIScrollViewDelegate>
+@interface PDFViewController () <UIScrollViewDelegate, NavigationBarDelegate>
 @end
 
 @implementation PDFViewController {
@@ -10,6 +12,8 @@
   int _numberOfPages;
   UIScrollView *_scrollView;
   NSArray *_imageViews;
+  NavigationBar *_navigationBar;
+  UIView *_footerView;
   int _lastPage;
 }
 
@@ -24,12 +28,12 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.view.backgroundColor = UIColor.blackColor;
+  self.view.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1.0];
 
   _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
   _scrollView.delegate = self;
-  _scrollView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1.0];
   _scrollView.pagingEnabled = YES;
+  _scrollView.showsHorizontalScrollIndicator = NO;
   [self.view addSubview:_scrollView];
 
   NSMutableArray *imageViews = NSMutableArray.new;
@@ -42,7 +46,93 @@
   }
   _imageViews = imageViews;
   _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * _numberOfPages, _scrollView.frame.size.height);
+
+  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+  [_scrollView addGestureRecognizer:tap];
+
+  _navigationBar = [[NavigationBar alloc] initWithDelegate:self];
+  _navigationBar.titleLabel.text = _item;
+  _navigationBar.alpha = 0.0;
+  [self.view addSubview:_navigationBar];
+
+  _footerView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                         self.view.bounds.size.height - 64,
+                                                         self.view.bounds.size.width,
+                                                         64)];
+  _footerView.alpha = 0.0;
+  _footerView.backgroundColor = UIColor.blackColor;
+  [self.view addSubview:_footerView];
+
+  NSArray *keys = @[@"Prev", @"Top", @"List", @"Next"];
+  NSArray *points = @[CR_POINTS_LEFT, CR_POINTS_CIRCLE, CR_POINTS_PIGTALE, CR_POINTS_RIGHT];
+  for (int i = 0; i < keys.count; i++) {
+    UIImage *image = [CRCommon imageWithPoints:points[i]
+                               width:48
+                               lineColor:UIColor.lightGrayColor
+                               pointColor:UIColor.whiteColor];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.tag = i;
+    button.frame = CGRectMake((self.view.bounds.size.width / (keys.count + 1)) * (1 + i) - 32,
+                              0,
+                              64,
+                              64);
+    [button setImage:image forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_footerView addSubview:button];
+  }
 }
+
+#pragma mark - UI Event
+
+- (void)leftButtonPressed {
+  _L();
+  [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)tapped:(UIGestureRecognizer *)tap {
+  _L();
+  [self toggleControls];
+}
+
+- (void)buttonPressed:(UIButton *)button {
+  _L();
+  switch (button.tag) {
+  case 0:
+    [self prev];
+    break;
+  case 1:
+    [self reload];
+    break;
+  case 2:
+    [self list];
+    break;
+  case 3:
+    [self next];
+    break;
+  }
+}
+
+#pragma mark - action
+
+- (void)prev {
+  _L();
+}
+
+- (void)reload {
+  _L();
+}
+
+- (void)list {
+  _L();
+}
+
+- (void)next {
+  _L();
+}
+
+
+#pragma mark - Properties
 
 - (CGRect)imageViewFrameWithIndex:(int)index {
   return CGRectMake(_scrollView.frame.size.width * index,
@@ -55,7 +145,32 @@
   return (_scrollView.contentOffset.x + _scrollView.frame.size.width * 0.5) / _scrollView.frame.size.width;
 }
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark - Controls
+
+- (void)toggleControls {
+  _L();
+  [UIView animateWithDuration:0.2 animations:^{
+      if (0.0 == _navigationBar.alpha) {
+        [self showControls];
+      } else {
+        [self hideControls];
+      }
+    }];
+}
+
+- (void)showControls {
+  _L();
+  _navigationBar.alpha = 1.0;
+  _footerView.alpha = 1.0;
+}
+
+- (void)hideControls {
+  _L();
+  _navigationBar.alpha = 0.0;
+  _footerView.alpha = 0.0;
+}
+
+#pragma mark - UIScrollViewDelegate, Page
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   int currentPage = self.currentPage;
