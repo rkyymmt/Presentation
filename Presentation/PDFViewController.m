@@ -117,20 +117,71 @@
 
 - (void)prev {
   _L();
+  int currentPage = self.currentPage;
+  if (0 < currentPage) {
+    [self setPage:currentPage - 1];
+  }
 }
 
 - (void)reload {
   _L();
+  [self setPage:0];
 }
 
 - (void)list {
   _L();
+  [self startListMode];
 }
 
 - (void)next {
   _L();
+  int currentPage = self.currentPage;
+  if (currentPage < _numberOfPages - 1) {
+    [self setPage:currentPage + 1];
+  }
 }
 
+- (void)setPage:(int)page {
+  _L();
+  [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:YES];
+}
+
+#pragma mark - list mode
+
+- (int)currentListPage {
+  int minIndex = _numberOfPages;
+  int maxIndex = 0;
+  for (UIImageView *imageView in _imageViews) {
+    minIndex = MIN(minIndex, imageView.tag);
+    maxIndex = MAX(maxIndex, imageView.tag);
+  }
+  return (minIndex + maxIndex) / 2 / 4;
+}
+
+- (void)startListMode {
+  _L();
+  [UIView animateWithDuration:0.2 animations:^{
+      [self setListPage:self.currentPage / 4];
+    }];
+}
+
+- (void)setListPage:(int)listPage {
+  int currentPage = self.currentPage;
+  CGFloat offsetX = currentPage * _scrollView.frame.size.width + 16;
+  CGFloat viewWidth = (self.view.bounds.size.width - 32) / 4;
+  int startIndex = listPage * 4;
+  for (int i = startIndex; i < MIN(startIndex + 4, _numberOfPages); i++) {
+    UIImageView *imageView = _imageViews[i % 5];
+    imageView.frame = CGRectMake(offsetX + viewWidth * (i % 4) + 4,
+                                 (_scrollView.frame.size.height - viewWidth) / 2 - 64,
+                                 viewWidth - 8,
+                                 viewWidth - 8);
+    if (imageView.tag == i)
+      continue;
+    imageView.tag = i;
+    imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
+  }
+}
 
 #pragma mark - Properties
 
@@ -143,31 +194,6 @@
 
 - (int)currentPage {
   return (_scrollView.contentOffset.x + _scrollView.frame.size.width * 0.5) / _scrollView.frame.size.width;
-}
-
-#pragma mark - Controls
-
-- (void)toggleControls {
-  _L();
-  [UIView animateWithDuration:0.2 animations:^{
-      if (0.0 == _navigationBar.alpha) {
-        [self showControls];
-      } else {
-        [self hideControls];
-      }
-    }];
-}
-
-- (void)showControls {
-  _L();
-  _navigationBar.alpha = 1.0;
-  _footerView.alpha = 1.0;
-}
-
-- (void)hideControls {
-  _L();
-  _navigationBar.alpha = 0.0;
-  _footerView.alpha = 0.0;
 }
 
 #pragma mark - UIScrollViewDelegate, Page
@@ -210,6 +236,31 @@
       imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
     }
   }
+}
+
+#pragma mark - Controls
+
+- (void)toggleControls {
+  _L();
+  [UIView animateWithDuration:0.2 animations:^{
+      if (0.0 == _navigationBar.alpha) {
+        [self showControls];
+      } else {
+        [self hideControls];
+      }
+    }];
+}
+
+- (void)showControls {
+  _L();
+  _navigationBar.alpha = 1.0;
+  _footerView.alpha = 1.0;
+}
+
+- (void)hideControls {
+  _L();
+  _navigationBar.alpha = 0.0;
+  _footerView.alpha = 0.0;
 }
 
 @end
