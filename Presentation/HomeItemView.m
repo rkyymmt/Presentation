@@ -20,10 +20,9 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
 
-    // UIImage *imageLayer = [Util gestureBackImageWithColor:UIColor.whiteColor size:CGSizeMake(width, width)];
     _imageLayer = CALayer.layer;
     _imageLayer.frame = CGRectMake(4, 0, width - 8, height * 0.8);
-    _imageLayer.contents = (__bridge id)[FileManager.fileManager imageWithItem:_item].CGImage;
+    _imageLayer.contents = (__bridge id)[FileManager.fileManager thumbnailForItem:_item].CGImage;
     _imageLayer.contentsGravity = kCAGravityResizeAspect;
     [_baseLayer addSublayer:_imageLayer];
 

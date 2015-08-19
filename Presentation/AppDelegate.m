@@ -13,7 +13,7 @@
   _rootViewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
 
   _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  _window.backgroundColor = UIColor.whiteColor;
+  _window.backgroundColor = UIColor.blackColor;
   _window.rootViewController = _rootViewController;
   [_window addSubview:_rootViewController.view];
   [_window makeKeyAndVisible];

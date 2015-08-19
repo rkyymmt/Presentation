@@ -85,11 +85,21 @@
   return thumbDir;
 }
 
+- (NSURL *)itemDir {
+  NSURL *itemDir = [self.library URLByAppendingPathComponent:@"item"];
+  [self createDirIfNotExists:itemDir];
+  return itemDir;
+}
+
 #pragma mark - Reload
 
 - (void)reload {
   _L();
   _L(@"%@", self.documents);
+
+  [NSFileManager.defaultManager removeItemAtURL:self.itemDir error:nil];
+  [NSFileManager.defaultManager removeItemAtURL:self.thumbDir error:nil];
+
   [self movePDFToDocuments:self.inbox];
   [self movePDFToDocuments:self.group];
 
@@ -102,9 +112,8 @@
   for (NSString *item in items) {
     if (![self itemExists:item inItemLists:itemLists]) {
       itemLists = [self addItem:item toItemLists:itemLists];
-      //[self createThumb:item];
     }
-    [self createThumb:item];
+    [self createThumbnail:item];
   }
   _L(@"%@", itemLists);
   [self saveItemLists:itemLists];
@@ -155,14 +164,16 @@
 
 #pragma mark - Thumnail
 
-- (void)createThumb:(NSString *)item {
+- (void)createThumbnail:(NSString *)item {
   _L();
+  CGFloat width = UIScreen.mainScreen.bounds.size.width / 3 * UIScreen.mainScreen.scale;
+
   NSURL *url = [self.documents URLByAppendingPathComponent:item];
 
   CGPDFDocumentRef document = CGPDFDocumentCreateWithURL((CFURLRef)url);
   CGPDFPageRef page = CGPDFDocumentGetPage(document, 1);
   CGRect pdfRect = CGPDFPageGetBoxRect(page, kCGPDFMediaBox);
-  CGFloat scale = 360.0 / MAX(pdfRect.size.width, pdfRect.size.height);
+  CGFloat scale = width / MAX(pdfRect.size.width, pdfRect.size.height);
   CGSize size = CGSizeMake(pdfRect.size.width * scale, pdfRect.size.height * scale);
 
   UIGraphicsBeginImageContext(size);
@@ -180,12 +191,61 @@
 
   NSURL *imageUrl = [self.thumbDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", item]];
   [UIImagePNGRepresentation(image) writeToFile:imageUrl.path atomically:YES];
+
+  CGPDFDocumentRelease(document);
 }
 
-- (UIImage *)imageWithItem:(NSString *)item {
+- (UIImage *)thumbnailForItem:(NSString *)item {
   _L();
   NSURL *url = [self.thumbDir URLByAppendingPathComponent:item];
   return [UIImage imageWithContentsOfFile:url.path];
+}
+
+#pragma mark - PDF
+
+- (int)numberOfPages:(NSString *)item {
+  NSURL *pdfUrl = [self.documents URLByAppendingPathComponent:item];
+  CGPDFDocumentRef document = CGPDFDocumentCreateWithURL((CFURLRef)pdfUrl);
+  int nPages = (int)CGPDFDocumentGetNumberOfPages(document);
+  CGPDFDocumentRelease(document);
+  return nPages;
+}
+
+- (NSURL *)imageURL:(NSString *)item page:(int)page {
+  return [self.itemDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_%03d.png", item, page]];
+}
+
+- (UIImage *)imageWithItem:(NSString *)item page:(int)page {
+  _L();
+  NSURL *imageUrl = [self imageURL:item page:page];
+  if ([imageUrl checkResourceIsReachableAndReturnError:nil])
+    return [UIImage imageWithContentsOfFile:imageUrl.path];
+
+  CGFloat width = UIScreen.mainScreen.bounds.size.width * UIScreen.mainScreen.scale;
+  NSURL *pdfUrl = [self.documents URLByAppendingPathComponent:item];
+  CGPDFDocumentRef document = CGPDFDocumentCreateWithURL((CFURLRef)pdfUrl);
+  CGPDFPageRef pdfPage = CGPDFDocumentGetPage(document, page);
+  CGRect pdfRect = CGPDFPageGetBoxRect(pdfPage, kCGPDFMediaBox);
+  CGFloat scale = width / MAX(pdfRect.size.width, pdfRect.size.height);
+  CGSize size = CGSizeMake(pdfRect.size.width * scale, pdfRect.size.height * scale);
+
+  UIGraphicsBeginImageContext(size);
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextScaleCTM(context, scale, -1.0 * scale);
+  CGContextTranslateCTM(context, 0.0, -1.0 * pdfRect.size.height);
+  CGContextSetFillColorWithColor(context, UIColor.whiteColor.CGColor);
+  CGContextFillRect(context, CGRectMake(pdfRect.origin.x + 2,
+                                        pdfRect.origin.y + 2,
+                                        pdfRect.size.width - 4,
+                                        pdfRect.size.height - 4));
+  CGContextDrawPDFPage(context, pdfPage);
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  [UIImagePNGRepresentation(image) writeToFile:imageUrl.path atomically:YES];
+  CGPDFDocumentRelease(document);
+
+  return image;
 }
 
 @end

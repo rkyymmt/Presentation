@@ -22,6 +22,15 @@
 		71A37ACE1B8340F400962116 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37ACD1B8340F400962116 /* FileManager.m */; };
 		71A37AD41B83536300962116 /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD31B83536300962116 /* HomeView.m */; };
 		71A37AD71B83537600962116 /* HomeItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD61B83537600962116 /* HomeItemView.m */; };
+		71A37ADA1B837EAC00962116 /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD91B837EAC00962116 /* PDFViewController.m */; };
+		71ED589E1B844D1C00FFDF0A /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ED589D1B844D1C00FFDF0A /* NavigationBar.m */; };
+		71ED58A01B8452BF00FFDF0A /* CoreRing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71ED589F1B8452BF00FFDF0A /* CoreRing.framework */; };
+		71ED58A21B8454A100FFDF0A /* CoreRing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71ED589F1B8452BF00FFDF0A /* CoreRing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71ED58B11B848E9700FFDF0A /* PDFFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ED58B01B848E9700FFDF0A /* PDFFooter.m */; };
+		71ED58B51B848EE100FFDF0A /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B41B848EE100FFDF0A /* close@2x.png */; };
+		71ED58B91B848F3300FFDF0A /* splash_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B71B848F3300FFDF0A /* splash_logo@2x.png */; };
+		71ED58BA1B848F3300FFDF0A /* splash_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B81B848F3300FFDF0A /* splash_logo@3x.png */; };
+		71ED58BD1B849D4000FFDF0A /* PDFListControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ED58BC1B849D4000FFDF0A /* PDFListControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +60,17 @@
 				71A37AB91B82FD9400962116 /* PDFImporter.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71ED58A31B8454A100FFDF0A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				71ED58A21B8454A100FFDF0A /* CoreRing.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -87,6 +107,18 @@
 		71A37AD31B83536300962116 /* HomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeView.m; sourceTree = "<group>"; };
 		71A37AD51B83537600962116 /* HomeItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeItemView.h; sourceTree = "<group>"; };
 		71A37AD61B83537600962116 /* HomeItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeItemView.m; sourceTree = "<group>"; };
+		71A37AD81B837EAC00962116 /* PDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
+		71A37AD91B837EAC00962116 /* PDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
+		71ED589C1B844D1C00FFDF0A /* NavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
+		71ED589D1B844D1C00FFDF0A /* NavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBar.m; sourceTree = "<group>"; };
+		71ED589F1B8452BF00FFDF0A /* CoreRing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreRing.framework; sourceTree = "<group>"; };
+		71ED58AF1B848E9700FFDF0A /* PDFFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFooter.h; sourceTree = "<group>"; };
+		71ED58B01B848E9700FFDF0A /* PDFFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFooter.m; sourceTree = "<group>"; };
+		71ED58B41B848EE100FFDF0A /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		71ED58B71B848F3300FFDF0A /* splash_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo@2x.png"; sourceTree = "<group>"; };
+		71ED58B81B848F3300FFDF0A /* splash_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo@3x.png"; sourceTree = "<group>"; };
+		71ED58BB1B849D4000FFDF0A /* PDFListControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFListControl.h; sourceTree = "<group>"; };
+		71ED58BC1B849D4000FFDF0A /* PDFListControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFListControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71ED58A01B8452BF00FFDF0A /* CoreRing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +150,7 @@
 		71A37A631B82F82C00962116 = {
 			isa = PBXGroup;
 			children = (
+				71ED589F1B8452BF00FFDF0A /* CoreRing.framework */,
 				71A37A6E1B82F82C00962116 /* Presentation */,
 				71A37A881B82F82C00962116 /* PresentationTests */,
 				71A37AAF1B82FD9400962116 /* PDFImporter */,
@@ -138,9 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				71A37A6F1B82F82C00962116 /* Supporting Files */,
-				71A37AC51B83345B00962116 /* Presentation.entitlements */,
-				71A37A7C1B82F82C00962116 /* Images.xcassets */,
-				71A37A7E1B82F82C00962116 /* LaunchScreen.xib */,
+				71ED58B61B848EF500FFDF0A /* resource */,
+				71ED58B31B848EE100FFDF0A /* image */,
 				71A37ABE1B83007100962116 /* Common.h */,
 				71A37ABF1B83007100962116 /* Common.m */,
 				71A37A731B82F82C00962116 /* AppDelegate.h */,
@@ -155,6 +188,14 @@
 				71A37AD31B83536300962116 /* HomeView.m */,
 				71A37AD51B83537600962116 /* HomeItemView.h */,
 				71A37AD61B83537600962116 /* HomeItemView.m */,
+				71A37AD81B837EAC00962116 /* PDFViewController.h */,
+				71A37AD91B837EAC00962116 /* PDFViewController.m */,
+				71ED589C1B844D1C00FFDF0A /* NavigationBar.h */,
+				71ED589D1B844D1C00FFDF0A /* NavigationBar.m */,
+				71ED58AF1B848E9700FFDF0A /* PDFFooter.h */,
+				71ED58B01B848E9700FFDF0A /* PDFFooter.m */,
+				71ED58BB1B849D4000FFDF0A /* PDFListControl.h */,
+				71ED58BC1B849D4000FFDF0A /* PDFListControl.m */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -207,6 +248,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		71ED58B31B848EE100FFDF0A /* image */ = {
+			isa = PBXGroup;
+			children = (
+				71ED58B71B848F3300FFDF0A /* splash_logo@2x.png */,
+				71ED58B81B848F3300FFDF0A /* splash_logo@3x.png */,
+				71ED58B41B848EE100FFDF0A /* close@2x.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		71ED58B61B848EF500FFDF0A /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				71A37AC51B83345B00962116 /* Presentation.entitlements */,
+				71A37A7C1B82F82C00962116 /* Images.xcassets */,
+				71A37A7E1B82F82C00962116 /* LaunchScreen.xib */,
+			);
+			name = resource;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -218,6 +279,7 @@
 				71A37A691B82F82C00962116 /* Frameworks */,
 				71A37A6A1B82F82C00962116 /* Resources */,
 				71A37AA91B82FAF400962116 /* Embed App Extensions */,
+				71ED58A31B8454A100FFDF0A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -322,7 +384,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71ED58B51B848EE100FFDF0A /* close@2x.png in Resources */,
 				71A37A801B82F82C00962116 /* LaunchScreen.xib in Resources */,
+				71ED58B91B848F3300FFDF0A /* splash_logo@2x.png in Resources */,
+				71ED58BA1B848F3300FFDF0A /* splash_logo@3x.png in Resources */,
 				71A37A7D1B82F82C00962116 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,10 +416,14 @@
 			files = (
 				71A37AC01B83007100962116 /* Common.m in Sources */,
 				71A37A751B82F82C00962116 /* AppDelegate.m in Sources */,
+				71ED58BD1B849D4000FFDF0A /* PDFListControl.m in Sources */,
 				71A37A721B82F82C00962116 /* main.m in Sources */,
 				71A37AD41B83536300962116 /* HomeView.m in Sources */,
+				71ED58B11B848E9700FFDF0A /* PDFFooter.m in Sources */,
+				71A37ADA1B837EAC00962116 /* PDFViewController.m in Sources */,
 				71A37AD71B83537600962116 /* HomeItemView.m in Sources */,
 				71A37ACB1B833E4B00962116 /* HomeViewController.m in Sources */,
+				71ED589E1B844D1C00FFDF0A /* NavigationBar.m in Sources */,
 				71A37AC81B833A6000962116 /* RootViewController.m in Sources */,
 				71A37ACE1B8340F400962116 /* FileManager.m in Sources */,
 			);
@@ -493,6 +562,10 @@
 				CODE_SIGN_ENTITLEMENTS = Presentation/Presentation.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Presentation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -507,6 +580,10 @@
 				CODE_SIGN_ENTITLEMENTS = Presentation/Presentation.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Presentation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -593,6 +670,7 @@
 				71A37A911B82F82C00962116 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		71A37A921B82F82C00962116 /* Build configuration list for PBXNativeTarget "PresentationTests" */ = {
 			isa = XCConfigurationList;
@@ -601,6 +679,7 @@
 				71A37A941B82F82C00962116 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		71A37ABA1B82FD9400962116 /* Build configuration list for PBXNativeTarget "PDFImporter" */ = {
 			isa = XCConfigurationList;
@@ -609,6 +688,7 @@
 				71A37ABC1B82FD9400962116 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
