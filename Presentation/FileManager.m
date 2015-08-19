@@ -96,6 +96,10 @@
 - (void)reload {
   _L();
   _L(@"%@", self.documents);
+
+  [NSFileManager.defaultManager removeItemAtURL:self.itemDir error:nil];
+  [NSFileManager.defaultManager removeItemAtURL:self.thumbDir error:nil];
+
   [self movePDFToDocuments:self.inbox];
   [self movePDFToDocuments:self.group];
 
@@ -108,7 +112,6 @@
   for (NSString *item in items) {
     if (![self itemExists:item inItemLists:itemLists]) {
       itemLists = [self addItem:item toItemLists:itemLists];
-      //[self createThumb:item];
     }
     [self createThumbnail:item];
   }
