@@ -2,9 +2,10 @@
 #import "Common.h"
 #import "FileManager.h"
 #import "NavigationBar.h"
+#import "PDFFooter.h"
 #import <CoreRing/CoreRing.h>
 
-@interface PDFViewController () <UIScrollViewDelegate, NavigationBarDelegate>
+@interface PDFViewController () <UIScrollViewDelegate, NavigationBarDelegate, PDFFooterDelegate>
 @end
 
 @implementation PDFViewController {
@@ -13,8 +14,9 @@
   UIScrollView *_scrollView;
   NSArray *_imageViews;
   NavigationBar *_navigationBar;
-  UIView *_footerView;
+  PDFFooter *_footer;
   int _lastPage;
+  BOOL _listMode;
 }
 
 - (instancetype)initWithItem:(NSString *)item {
@@ -55,32 +57,9 @@
   _navigationBar.alpha = 0.0;
   [self.view addSubview:_navigationBar];
 
-  _footerView = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                         self.view.bounds.size.height - 64,
-                                                         self.view.bounds.size.width,
-                                                         64)];
-  _footerView.alpha = 0.0;
-  _footerView.backgroundColor = UIColor.blackColor;
-  [self.view addSubview:_footerView];
-
-  NSArray *keys = @[@"Prev", @"Top", @"List", @"Next"];
-  NSArray *points = @[CR_POINTS_LEFT, CR_POINTS_CIRCLE, CR_POINTS_PIGTALE, CR_POINTS_RIGHT];
-  for (int i = 0; i < keys.count; i++) {
-    UIImage *image = [CRCommon imageWithPoints:points[i]
-                               width:48
-                               lineColor:UIColor.lightGrayColor
-                               pointColor:UIColor.whiteColor];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.tag = i;
-    button.frame = CGRectMake((self.view.bounds.size.width / (keys.count + 1)) * (1 + i) - 32,
-                              0,
-                              64,
-                              64);
-    [button setImage:image forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_footerView addSubview:button];
-  }
+  _footer = [[PDFFooter alloc] initWithDelegate:self];
+  _footer.alpha = 0.0;
+  [self.view addSubview:_footer];
 }
 
 #pragma mark - UI Event
@@ -92,12 +71,21 @@
 
 - (void)tapped:(UIGestureRecognizer *)tap {
   _L();
+  if (_listMode) {
+    CGPoint point = [tap locationInView:_scrollView];
+    for (UIImageView *imageView in _imageViews) {
+      if (CGRectContainsPoint(imageView.frame, point)) {
+        [self listPageDidSelect:imageView.tag % 4];
+        return;
+      }
+    }
+  }
   [self toggleControls];
 }
 
-- (void)buttonPressed:(UIButton *)button {
+- (void)PDFFooterButtonPressed:(int)index {
   _L();
-  switch (button.tag) {
+  switch (index) {
   case 0:
     [self prev];
     break;
@@ -160,6 +148,7 @@
 
 - (void)startListMode {
   _L();
+  _listMode = YES;
   [UIView animateWithDuration:0.2 animations:^{
       [self setListPage:self.currentPage / 4];
     }];
@@ -181,6 +170,32 @@
     imageView.tag = i;
     imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
   }
+}
+
+- (void)listPageDidSelect:(int)indexInListPage {
+  _L();
+  [UIView animateWithDuration:0.2
+          animations:^{
+              int page = [self currentListPage] * 4 + indexInListPage;
+              [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:NO];
+
+              int startPage = MAX(0, page - 2);
+              for (int i = startPage; i < MIN(startPage + 5, _numberOfPages); i++) {
+                UIImageView *imageView = _imageViews[i % 5];
+                if (page != i)
+                  imageView.alpha = 0.0;
+                imageView.frame = [self imageViewFrameWithIndex:i];
+                if (imageView.tag == i)
+                  continue;
+                imageView.tag = i;
+                imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
+              }
+            }
+          completion:^(BOOL finished) {
+              for (UIImageView *imageView in _imageViews) {
+                imageView.alpha = 1.0;
+              }
+            }];
 }
 
 #pragma mark - Properties
@@ -254,13 +269,13 @@
 - (void)showControls {
   _L();
   _navigationBar.alpha = 1.0;
-  _footerView.alpha = 1.0;
+  _footer.alpha = 1.0;
 }
 
 - (void)hideControls {
   _L();
   _navigationBar.alpha = 0.0;
-  _footerView.alpha = 0.0;
+  _footer.alpha = 0.0;
 }
 
 @end
