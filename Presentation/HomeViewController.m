@@ -2,7 +2,6 @@
 #import "Common.h"
 #import "HomeView.h"
 #import "FileManager.h"
-#import "PDFViewController.h"
 
 @interface HomeViewController () <HomeViewDelegate>
 @end
@@ -32,6 +31,14 @@
   _L();
   PDFViewController *vc = [[PDFViewController alloc] initWithItem:item];
   [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (PDFViewController *)pdfViewController {
+  UIViewController *vc = self.presentedViewController;
+  if (vc && [vc isKindOfClass:PDFViewController.class]) {
+    return (PDFViewController *)vc;
+  }
+  return nil;
 }
 
 @end

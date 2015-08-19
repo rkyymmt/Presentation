@@ -57,7 +57,7 @@
 }
 
 - (void)buttonPressed:(UIButton *)button {
-  [_delegate listControlDidSelectIndex:button.tag];
+  [_delegate listControlDidSelectIndex:(int)button.tag];
 }
 
 - (void)arrowButtonPressed:(UIButton *)button {

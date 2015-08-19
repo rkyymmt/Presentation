@@ -4,6 +4,7 @@
 #import "NavigationBar.h"
 #import "PDFFooter.h"
 #import "PDFListControl.h"
+#import "RootViewController.h"
 
 @interface PDFViewController () <UIScrollViewDelegate, NavigationBarDelegate, PDFFooterDelegate, PDFListControlDelegate>
 @end
@@ -132,6 +133,10 @@
 
 - (void)prev {
   _L();
+  if (_listMode) {
+    [self listPrev];
+    return;
+  }
   int currentPage = self.currentPage;
   if (0 < currentPage) {
     [self setPage:currentPage - 1];
@@ -140,6 +145,10 @@
 
 - (void)next {
   _L();
+  if (_listMode) {
+    [self listNext];
+    return;
+  }
   int currentPage = self.currentPage;
   if (currentPage < _numberOfPages - 1) {
     [self setPage:currentPage + 1];
@@ -163,6 +172,7 @@
   _listMode = YES;
   _scrollView.scrollEnabled = NO;
   [self setListPage:self.currentPage / 4];
+  [RootViewController.rootViewController setActiveGestures:YES];
 
   // mmm...
   for (UIImageView *imageView in _imageViews) {
@@ -264,6 +274,7 @@
                 imageView.alpha = 1.0;
                 _listMode = NO;
                 _scrollView.scrollEnabled = YES;
+                [RootViewController.rootViewController setActiveGestures:NO];
                 if (0.0 == _navigationBar.alpha) {
                   [self hideControls];
                 } else {
@@ -278,11 +289,11 @@
   CGFloat offsetX = self.currentPage * _scrollView.frame.size.width;
   int index = 0;
   for (UIImageView *imageView in _imageViews) {
-    _L(@"%d", imageView.tag);
+    _L(@"%d", (int)imageView.tag);
     if (0 == imageView.tag % 4 && offsetX < imageView.frame.origin.x && imageView.frame.origin.x <= minX) {
       _L(@"%f", imageView.frame.origin.x);
       minX = imageView.frame.origin.x;
-      index = imageView.tag;
+      index = (int)imageView.tag;
     }
   }
   _L(@"%d, %d", index, index / 4);
