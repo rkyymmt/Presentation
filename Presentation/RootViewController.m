@@ -3,12 +3,19 @@
 #import "Common.h"
 #import "FileManager.h"
 #import <CoreRing/CoreRing.h>
+#import "AppDelegate.h"
 
 @interface RootViewController () <CRApplicationDelegate>
 @end
 
 @implementation RootViewController {
   CRApplication *_ringApp;
+  HomeViewController *_homeViewController;
+}
+
++ (RootViewController *)rootViewController {
+  _L();
+  return [(AppDelegate *)UIApplication.sharedApplication.delegate rootViewController];
 }
 
 - (void)viewDidLoad {
@@ -24,13 +31,23 @@
 
   [FileManager.fileManager reload];
 
-  HomeViewController *vc = [[HomeViewController alloc] initWithNibName:nil bundle:nil];
-  vc.view.alpha = 0.0;
-  [self presentViewController:vc animated:NO completion:^{
+  _homeViewController = [[HomeViewController alloc] initWithNibName:nil bundle:nil];
+  _homeViewController.view.alpha = 0.0;
+  [self presentViewController:_homeViewController animated:NO completion:^{
       [UIView animateWithDuration:0.2 animations:^{
-          vc.view.alpha = 1.0;
+          _homeViewController.view.alpha = 1.0;
         }];
+      [self startRing];
     }];
+}
+
+- (void)setActiveGestures:(BOOL)isListMode {
+  _L();
+  if (isListMode) {
+    [_ringApp setActiveGestureIdentifiers:@[@"one", @"two", @"three", @"four", @"prev", @"next"]];
+  } else {
+    [_ringApp setActiveGestureIdentifiers:@[@"reload", @"list", @"prev", @"next"]];
+  }
 }
 
 - (void)startRing {
@@ -51,7 +68,7 @@
       return;
     }
   }
-  [_ringApp setActiveGestureIdentifiers:gestures.allKeys];
+  [self setActiveGestures:NO];
   [_ringApp start];
 }
 
@@ -78,33 +95,35 @@
 
   dispatch_async(dispatch_get_main_queue(), ^{
       if ([@"reload" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController reload];
         return;
       }
-
       if ([@"list" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController list];
         return;
       }
-
-      if ([@"left" isEqualToString:identifier]) {
+      if ([@"prev" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController prev];
         return;
       }
-
-      if ([@"right" isEqualToString:identifier]) {
+      if ([@"next" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController next];
         return;
       }
-
       if ([@"one" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController setPageInList:0];
         return;
       }
-
       if ([@"two" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController setPageInList:1];
         return;
       }
       if ([@"three" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController setPageInList:2];
         return;
       }
-
       if ([@"four" isEqualToString:identifier]) {
+        [_homeViewController.pdfViewController setPageInList:3];
         return;
       }
     });

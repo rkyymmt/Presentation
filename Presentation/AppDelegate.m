@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "Common.h"
+#import <CoreRing/CoreRing.h>
 
 @implementation AppDelegate {
   FileManager *_fileManager;
@@ -9,6 +10,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   _L();
+  [application setIdleTimerDisabled:YES];
+
   _fileManager = FileManager.new;
   _rootViewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
 
@@ -22,10 +25,12 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   _L();
+  [CRApplication applicationWillResignActive:application];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   _L();
+  [CRApplication applicationDidBecomeActive:application];
 }
 
 - (BOOL)application:(UIApplication *)application

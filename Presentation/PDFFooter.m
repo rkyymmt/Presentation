@@ -37,7 +37,7 @@
 }
 
 - (void)buttonPressed:(UIButton *)button {
-  [_delegate PDFFooterButtonPressed:button.tag];
+  [_delegate PDFFooterButtonPressed:(int)button.tag];
 }
 
 @end
