@@ -10,24 +10,29 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="8db-OL-My8">
-                    <rect key="frame" x="64" y="0.0" width="352" height="480"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="splash_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="8db-OL-My8">
+                    <rect key="frame" x="120" y="0.0" width="240" height="480"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="240" id="Nbc-d3-am7"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="8db-OL-My8" secondAttribute="trailing" constant="64" id="613-j8-9Xr"/>
+                <constraint firstAttribute="centerX" secondItem="8db-OL-My8" secondAttribute="centerX" id="5lp-Tp-SPx"/>
                 <constraint firstAttribute="centerX" secondItem="8db-OL-My8" secondAttribute="centerX" id="9ch-RP-PeM"/>
                 <constraint firstAttribute="bottom" secondItem="8db-OL-My8" secondAttribute="bottom" id="aNK-CG-Obz"/>
                 <constraint firstItem="8db-OL-My8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ghG-Lq-JGH"/>
                 <constraint firstAttribute="centerY" secondItem="8db-OL-My8" secondAttribute="centerY" id="kiG-qC-AFm"/>
-                <constraint firstItem="8db-OL-My8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="oMz-8p-gpW"/>
+                <constraint firstAttribute="centerY" secondItem="8db-OL-My8" secondAttribute="centerY" id="ynw-mo-mEb"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="9ch-RP-PeM"/>
+                    <exclude reference="aNK-CG-Obz"/>
+                    <exclude reference="ghG-Lq-JGH"/>
                     <exclude reference="kiG-qC-AFm"/>
                 </mask>
             </variation>

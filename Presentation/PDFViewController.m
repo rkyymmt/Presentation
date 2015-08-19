@@ -247,10 +247,11 @@
 
 - (int)currentListPage {
   CGFloat minX = _scrollView.frame.size.width * _numberOfPages;
+  CGFloat offsetX = self.currentPage * _scrollView.frame.size.width;
   int index = 0;
   for (UIImageView *imageView in _imageViews) {
     _L(@"%d", imageView.tag);
-    if (0 == imageView.tag % 4 && 0 < imageView.frame.origin.x && imageView.frame.origin.x <= minX) {
+    if (0 == imageView.tag % 4 && offsetX < imageView.frame.origin.x && imageView.frame.origin.x <= minX) {
       _L(@"%f", imageView.frame.origin.x);
       minX = imageView.frame.origin.x;
       index = imageView.tag;
