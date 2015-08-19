@@ -460,6 +460,7 @@ typedef enum {
     return;
   [self indexChanged];
 }
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
   [self indexChanged];
 }

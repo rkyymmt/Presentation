@@ -22,6 +22,7 @@
 		71A37ACE1B8340F400962116 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37ACD1B8340F400962116 /* FileManager.m */; };
 		71A37AD41B83536300962116 /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD31B83536300962116 /* HomeView.m */; };
 		71A37AD71B83537600962116 /* HomeItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD61B83537600962116 /* HomeItemView.m */; };
+		71A37ADA1B837EAC00962116 /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD91B837EAC00962116 /* PDFViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		71A37AD31B83536300962116 /* HomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeView.m; sourceTree = "<group>"; };
 		71A37AD51B83537600962116 /* HomeItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeItemView.h; sourceTree = "<group>"; };
 		71A37AD61B83537600962116 /* HomeItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeItemView.m; sourceTree = "<group>"; };
+		71A37AD81B837EAC00962116 /* PDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
+		71A37AD91B837EAC00962116 /* PDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,8 @@
 				71A37AD31B83536300962116 /* HomeView.m */,
 				71A37AD51B83537600962116 /* HomeItemView.h */,
 				71A37AD61B83537600962116 /* HomeItemView.m */,
+				71A37AD81B837EAC00962116 /* PDFViewController.h */,
+				71A37AD91B837EAC00962116 /* PDFViewController.m */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 				71A37A751B82F82C00962116 /* AppDelegate.m in Sources */,
 				71A37A721B82F82C00962116 /* main.m in Sources */,
 				71A37AD41B83536300962116 /* HomeView.m in Sources */,
+				71A37ADA1B837EAC00962116 /* PDFViewController.m in Sources */,
 				71A37AD71B83537600962116 /* HomeItemView.m in Sources */,
 				71A37ACB1B833E4B00962116 /* HomeViewController.m in Sources */,
 				71A37AC81B833A6000962116 /* RootViewController.m in Sources */,
@@ -593,6 +599,7 @@
 				71A37A911B82F82C00962116 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		71A37A921B82F82C00962116 /* Build configuration list for PBXNativeTarget "PresentationTests" */ = {
 			isa = XCConfigurationList;
@@ -601,6 +608,7 @@
 				71A37A941B82F82C00962116 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		71A37ABA1B82FD9400962116 /* Build configuration list for PBXNativeTarget "PDFImporter" */ = {
 			isa = XCConfigurationList;
@@ -609,6 +617,7 @@
 				71A37ABC1B82FD9400962116 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
