@@ -30,6 +30,7 @@
 		71ED58B51B848EE100FFDF0A /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B41B848EE100FFDF0A /* close@2x.png */; };
 		71ED58B91B848F3300FFDF0A /* splash_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B71B848F3300FFDF0A /* splash_logo@2x.png */; };
 		71ED58BA1B848F3300FFDF0A /* splash_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B81B848F3300FFDF0A /* splash_logo@3x.png */; };
+		71ED58BD1B849D4000FFDF0A /* PDFListControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ED58BC1B849D4000FFDF0A /* PDFListControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,8 @@
 		71ED58B41B848EE100FFDF0A /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
 		71ED58B71B848F3300FFDF0A /* splash_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo@2x.png"; sourceTree = "<group>"; };
 		71ED58B81B848F3300FFDF0A /* splash_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo@3x.png"; sourceTree = "<group>"; };
+		71ED58BB1B849D4000FFDF0A /* PDFListControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFListControl.h; sourceTree = "<group>"; };
+		71ED58BC1B849D4000FFDF0A /* PDFListControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFListControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +194,8 @@
 				71ED589D1B844D1C00FFDF0A /* NavigationBar.m */,
 				71ED58AF1B848E9700FFDF0A /* PDFFooter.h */,
 				71ED58B01B848E9700FFDF0A /* PDFFooter.m */,
+				71ED58BB1B849D4000FFDF0A /* PDFListControl.h */,
+				71ED58BC1B849D4000FFDF0A /* PDFListControl.m */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 			files = (
 				71A37AC01B83007100962116 /* Common.m in Sources */,
 				71A37A751B82F82C00962116 /* AppDelegate.m in Sources */,
+				71ED58BD1B849D4000FFDF0A /* PDFListControl.m in Sources */,
 				71A37A721B82F82C00962116 /* main.m in Sources */,
 				71A37AD41B83536300962116 /* HomeView.m in Sources */,
 				71ED58B11B848E9700FFDF0A /* PDFFooter.m in Sources */,

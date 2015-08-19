@@ -3,9 +3,9 @@
 #import "FileManager.h"
 #import "NavigationBar.h"
 #import "PDFFooter.h"
-#import <CoreRing/CoreRing.h>
+#import "PDFListControl.h"
 
-@interface PDFViewController () <UIScrollViewDelegate, NavigationBarDelegate, PDFFooterDelegate>
+@interface PDFViewController () <UIScrollViewDelegate, NavigationBarDelegate, PDFFooterDelegate, PDFListControlDelegate>
 @end
 
 @implementation PDFViewController {
@@ -15,6 +15,7 @@
   NSArray *_imageViews;
   NavigationBar *_navigationBar;
   PDFFooter *_footer;
+  PDFListControl *_listControl;
   int _lastPage;
   BOOL _listMode;
 }
@@ -56,6 +57,10 @@
   _navigationBar.titleLabel.text = _item;
   _navigationBar.alpha = 0.0;
   [self.view addSubview:_navigationBar];
+
+  _listControl = [[PDFListControl alloc] initWithDelegate:self];
+  _listControl.alpha = 0.0;
+  [self.view addSubview:_listControl];
 
   _footer = [[PDFFooter alloc] initWithDelegate:self];
   _footer.alpha = 0.0;
@@ -101,6 +106,28 @@
   }
 }
 
+#pragma mark - PDFListControlDelegate
+
+- (void)listControlDidSelectIndex:(int)index {
+  _L();
+  [self listPageDidSelect:index];
+}
+
+- (void)listControlPrev {
+  _L();
+  [self listPrev];
+}
+
+- (void)listControlNext {
+  _L();
+  [self listNext];
+}
+
+- (void)listControlTapped {
+  _L();
+  [self toggleControls];
+}
+
 #pragma mark - action
 
 - (void)prev {
@@ -136,40 +163,121 @@
 
 #pragma mark - list mode
 
-- (int)currentListPage {
-  int minIndex = _numberOfPages;
-  int maxIndex = 0;
-  for (UIImageView *imageView in _imageViews) {
-    minIndex = MIN(minIndex, imageView.tag);
-    maxIndex = MAX(maxIndex, imageView.tag);
-  }
-  return (minIndex + maxIndex) / 2 / 4;
-}
-
 - (void)startListMode {
   _L();
   _listMode = YES;
-  [UIView animateWithDuration:0.2 animations:^{
-      [self setListPage:self.currentPage / 4];
-    }];
+  _scrollView.scrollEnabled = NO;
+  [self setListPage:self.currentPage / 4];
+
+  // mmm...
+  for (UIImageView *imageView in _imageViews) {
+    if (imageView.frame.size.width == _scrollView.frame.size.width) {
+      CGFloat viewWidth = (self.view.bounds.size.width - 32) / 4;
+      imageView.frame = CGRectMake(imageView.frame.origin.x,
+                                   _scrollView.frame.size.height * 0.6 - viewWidth,
+                                   viewWidth - 8,
+                                   viewWidth - 8);
+    }
+  }
+
+  if (0.0 == _navigationBar.alpha) {
+    [self hideControls];
+  } else {
+    [self showControls];
+  }
+}
+
+- (void)listPrev {
+  _L();
+  int prevListPage = self.currentListPage - 1;
+  if (prevListPage < 0)
+    return;
+
+  int currentPage = self.currentPage;
+  CGFloat offsetX = currentPage * _scrollView.frame.size.width + 16;
+
+  [UIView animateWithDuration:0.2
+          animations:^{
+              for (UIImageView *imageView in _imageViews) {
+                imageView.frame = CGRectMake(offsetX + self.view.bounds.size.width / 4 * 5,
+                                             imageView.frame.origin.y,
+                                             imageView.frame.size.width,
+                                             imageView.frame.size.height);
+              }
+            }
+          completion:^(BOOL finished) {
+              for (UIImageView *imageView in _imageViews) {
+                imageView.frame = CGRectMake(offsetX + -1.0 * self.view.bounds.size.width / 4,
+                                             imageView.frame.origin.y,
+                                             imageView.frame.size.width,
+                                             imageView.frame.size.height);
+              }
+              [self setListPage:prevListPage];
+            }];
+}
+
+- (void)listNext {
+  _L();
+  int nextListPage = self.currentListPage + 1;
+  if (nextListPage * 4 + 1 >= _numberOfPages)
+    return;
+
+  int currentPage = self.currentPage;
+  CGFloat offsetX = currentPage * _scrollView.frame.size.width + 16;
+
+  [UIView animateWithDuration:0.2
+          animations:^{
+              for (UIImageView *imageView in _imageViews) {
+                imageView.frame = CGRectMake(offsetX + -1.0 * self.view.bounds.size.width / 4,
+                                             imageView.frame.origin.y,
+                                             imageView.frame.size.width,
+                                             imageView.frame.size.height);
+              }
+            }
+          completion:^(BOOL finished) {
+              for (UIImageView *imageView in _imageViews) {
+                imageView.frame = CGRectMake(offsetX + self.view.bounds.size.width / 4 * 5,
+                                             imageView.frame.origin.y,
+                                             imageView.frame.size.width,
+                                             imageView.frame.size.height);
+              }
+              [self setListPage:nextListPage];
+            }];
+}
+
+- (int)currentListPage {
+  CGFloat minX = _scrollView.frame.size.width * _numberOfPages;
+  int index = 0;
+  for (UIImageView *imageView in _imageViews) {
+    _L(@"%d", imageView.tag);
+    if (0 == imageView.tag % 4 && 0 < imageView.frame.origin.x && imageView.frame.origin.x <= minX) {
+      _L(@"%f", imageView.frame.origin.x);
+      minX = imageView.frame.origin.x;
+      index = imageView.tag;
+    }
+  }
+  _L(@"%d, %d", index, index / 4);
+  return index / 4;
 }
 
 - (void)setListPage:(int)listPage {
-  int currentPage = self.currentPage;
-  CGFloat offsetX = currentPage * _scrollView.frame.size.width + 16;
-  CGFloat viewWidth = (self.view.bounds.size.width - 32) / 4;
-  int startIndex = listPage * 4;
-  for (int i = startIndex; i < MIN(startIndex + 4, _numberOfPages); i++) {
-    UIImageView *imageView = _imageViews[i % 5];
-    imageView.frame = CGRectMake(offsetX + viewWidth * (i % 4) + 4,
-                                 (_scrollView.frame.size.height - viewWidth) / 2 - 64,
-                                 viewWidth - 8,
-                                 viewWidth - 8);
-    if (imageView.tag == i)
-      continue;
-    imageView.tag = i;
-    imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
-  }
+  [UIView animateWithDuration:0.2 animations:^{
+      int currentPage = self.currentPage;
+      CGFloat offsetX = currentPage * _scrollView.frame.size.width + 16;
+      CGFloat viewWidth = (self.view.bounds.size.width - 32) / 4;
+      int startIndex = listPage * 4;
+      for (int i = startIndex; i < MIN(startIndex + 4, _numberOfPages); i++) {
+        UIImageView *imageView = _imageViews[i % 5];
+        imageView.frame = CGRectMake(offsetX + viewWidth * (i % 4) + 4,
+                                     _scrollView.frame.size.height * 0.6 - viewWidth,
+                                     viewWidth - 8,
+                                     viewWidth - 8);
+        if (imageView.tag == i)
+          continue;
+        imageView.tag = i;
+        imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
+      }
+    }];
 }
 
 - (void)listPageDidSelect:(int)indexInListPage {
@@ -194,6 +302,13 @@
           completion:^(BOOL finished) {
               for (UIImageView *imageView in _imageViews) {
                 imageView.alpha = 1.0;
+                _listMode = NO;
+                _scrollView.scrollEnabled = YES;
+                if (0.0 == _navigationBar.alpha) {
+                  [self hideControls];
+                } else {
+                  [self showControls];
+                }
               }
             }];
 }
@@ -257,25 +372,34 @@
 
 - (void)toggleControls {
   _L();
-  [UIView animateWithDuration:0.2 animations:^{
-      if (0.0 == _navigationBar.alpha) {
-        [self showControls];
-      } else {
-        [self hideControls];
-      }
-    }];
+  if (0.0 == _navigationBar.alpha) {
+    [self showControls];
+  } else {
+    [self hideControls];
+  }
 }
 
 - (void)showControls {
   _L();
-  _navigationBar.alpha = 1.0;
-  _footer.alpha = 1.0;
+  [UIView animateWithDuration:0.2 animations:^{
+      _navigationBar.alpha = 1.0;
+      if (_listMode) {
+        _listControl.alpha = 1.0;
+        _footer.alpha = 0.0;
+      } else {
+        _listControl.alpha = 0.0;
+        _footer.alpha = 1.0;
+      }
+    }];
 }
 
 - (void)hideControls {
   _L();
-  _navigationBar.alpha = 0.0;
-  _footer.alpha = 0.0;
+  [UIView animateWithDuration:0.2 animations:^{
+      _navigationBar.alpha = 0.0;
+      _listControl.alpha = 0.0;
+      _footer.alpha = 0.0;
+    }];
 }
 
 @end
