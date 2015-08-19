@@ -80,7 +80,7 @@
     CGPoint point = [tap locationInView:_scrollView];
     for (UIImageView *imageView in _imageViews) {
       if (CGRectContainsPoint(imageView.frame, point)) {
-        [self listPageDidSelect:imageView.tag % 4];
+        [self setPageInList:imageView.tag % 4];
         return;
       }
     }
@@ -110,7 +110,7 @@
 
 - (void)listControlDidSelectIndex:(int)index {
   _L();
-  [self listPageDidSelect:index];
+  [self setPageInList:index];
 }
 
 - (void)listControlPrev {
@@ -138,22 +138,17 @@
   }
 }
 
-- (void)reload {
-  _L();
-  [self setPage:0];
-}
-
-- (void)list {
-  _L();
-  [self startListMode];
-}
-
 - (void)next {
   _L();
   int currentPage = self.currentPage;
   if (currentPage < _numberOfPages - 1) {
     [self setPage:currentPage + 1];
   }
+}
+
+- (void)reload {
+  _L();
+  [self setPage:0];
 }
 
 - (void)setPage:(int)page {
@@ -163,7 +158,7 @@
 
 #pragma mark - list mode
 
-- (void)startListMode {
+- (void)list {
   _L();
   _listMode = YES;
   _scrollView.scrollEnabled = NO;
@@ -245,6 +240,39 @@
             }];
 }
 
+- (void)setPageInList:(int)indexInList {
+  _L();
+  [UIView animateWithDuration:0.2
+          animations:^{
+              int page = [self currentListPage] * 4 + indexInList;
+              [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:NO];
+
+              int startPage = MAX(0, page - 2);
+              for (int i = startPage; i < MIN(startPage + 5, _numberOfPages); i++) {
+                UIImageView *imageView = _imageViews[i % 5];
+                if (page != i)
+                  imageView.alpha = 0.0;
+                imageView.frame = [self imageViewFrameWithIndex:i];
+                if (imageView.tag == i)
+                  continue;
+                imageView.tag = i;
+                imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
+              }
+            }
+          completion:^(BOOL finished) {
+              for (UIImageView *imageView in _imageViews) {
+                imageView.alpha = 1.0;
+                _listMode = NO;
+                _scrollView.scrollEnabled = YES;
+                if (0.0 == _navigationBar.alpha) {
+                  [self hideControls];
+                } else {
+                  [self showControls];
+                }
+              }
+            }];
+}
+
 - (int)currentListPage {
   CGFloat minX = _scrollView.frame.size.width * _numberOfPages;
   CGFloat offsetX = self.currentPage * _scrollView.frame.size.width;
@@ -279,39 +307,6 @@
         imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
       }
     }];
-}
-
-- (void)listPageDidSelect:(int)indexInListPage {
-  _L();
-  [UIView animateWithDuration:0.2
-          animations:^{
-              int page = [self currentListPage] * 4 + indexInListPage;
-              [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:NO];
-
-              int startPage = MAX(0, page - 2);
-              for (int i = startPage; i < MIN(startPage + 5, _numberOfPages); i++) {
-                UIImageView *imageView = _imageViews[i % 5];
-                if (page != i)
-                  imageView.alpha = 0.0;
-                imageView.frame = [self imageViewFrameWithIndex:i];
-                if (imageView.tag == i)
-                  continue;
-                imageView.tag = i;
-                imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
-              }
-            }
-          completion:^(BOOL finished) {
-              for (UIImageView *imageView in _imageViews) {
-                imageView.alpha = 1.0;
-                _listMode = NO;
-                _scrollView.scrollEnabled = YES;
-                if (0.0 == _navigationBar.alpha) {
-                  [self hideControls];
-                } else {
-                  [self showControls];
-                }
-              }
-            }];
 }
 
 #pragma mark - Properties
