@@ -12,12 +12,12 @@
 
     _titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.textColor = UIColor.whiteColor;
+    _titleLabel.textColor = UIColor.lightGrayColor;
     [self addSubview:_titleLabel];
 
     _leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _leftButton.frame = CGRectMake(0, 10, 44, 44);
-    [_leftButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    _leftButton.frame = CGRectMake(8, self.bounds.size.height / 2 - 22, 44, 44);
+    [_leftButton setImage:[UIImage imageNamed:@"navigation_close"] forState:UIControlStateNormal];
     [_leftButton addTarget:self action:@selector(leftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_leftButton];
   }

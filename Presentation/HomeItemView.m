@@ -21,7 +21,7 @@
     CGFloat height = self.bounds.size.height;
 
     _imageLayer = CALayer.layer;
-    _imageLayer.frame = CGRectMake(4, 0, width - 8, height * 0.8);
+    _imageLayer.frame = CGRectMake(4, 0, width - 8, height * 0.75);
     _imageLayer.contents = (__bridge id)[FileManager.fileManager thumbnailForItem:_item].CGImage;
     _imageLayer.contentsGravity = kCAGravityResizeAspect;
     [_baseLayer addSublayer:_imageLayer];
@@ -29,8 +29,7 @@
     CGFloat titleWidth = self.bounds.size.width - 20;
     CGFloat titleY = CGRectGetMaxY(_imageLayer.frame);
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, titleY, titleWidth, height - titleY - 10)];
-    _titleLabel.numberOfLines = 2;
-    _titleLabel.textColor = UIColor.whiteColor;
+    _titleLabel.textColor = UIColor.lightGrayColor;
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.text = _item;
     [self addSubview:_titleLabel];

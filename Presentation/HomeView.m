@@ -23,6 +23,10 @@ typedef enum {
   PagingType _pagingType;
 }
 
+- (void)dealloc {
+  _L();
+}
+
 - (instancetype)initWithFrame:(CGRect)frame delegate:(id<HomeViewDelegate>)delegate {
   self = [super initWithFrame:frame];
   if (self) {
@@ -47,8 +51,8 @@ typedef enum {
                                                                    self.bounds.size.height - 24,
                                                                    self.bounds.size.width,
                                                                    24)];
-    _pageControl.pageIndicatorTintColor = UIColor.whiteColor;
-    _pageControl.currentPageIndicatorTintColor = UIColor.lightGrayColor;
+    _pageControl.currentPageIndicatorTintColor = UIColor.whiteColor;
+    _pageControl.pageIndicatorTintColor = UIColor.grayColor;
     [self addSubview:_pageControl];
 
     [self reloadData];
