@@ -30,7 +30,7 @@
     CGFloat titleY = CGRectGetMaxY(_imageLayer.frame);
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, titleY, titleWidth, height - titleY - 10)];
     _titleLabel.numberOfLines = 2;
-    _titleLabel.textColor = UIColor.whiteColor;
+    _titleLabel.textColor = UIColor.lightGrayColor;
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.text = _item;
     [self addSubview:_titleLabel];

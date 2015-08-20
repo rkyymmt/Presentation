@@ -29,14 +29,8 @@
   if (self.presentedViewController)
     return;
 
-  [FileManager.fileManager reload];
-
   _homeViewController = [[HomeViewController alloc] initWithNibName:nil bundle:nil];
-  _homeViewController.view.alpha = 0.0;
   [self presentViewController:_homeViewController animated:NO completion:^{
-      [UIView animateWithDuration:0.2 animations:^{
-          _homeViewController.view.alpha = 1.0;
-        }];
       [self startRing];
     }];
 }
