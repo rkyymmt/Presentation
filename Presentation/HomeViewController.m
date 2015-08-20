@@ -81,6 +81,8 @@
 
 - (void)help {
   _L();
+  NSString *urlString = [NSString stringWithFormat:@"%@/public/ios/ring/presentation/help.html", APP_SERVER];
+  [UIApplication.sharedApplication openURL:[NSURL URLWithString:urlString]];
 }
 
 #pragma mark - HomeViewDelegate
