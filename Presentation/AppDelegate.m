@@ -38,7 +38,9 @@
         sourceApplication:(NSString *)sourceApplication
         annotation:(id)annotation
 {
-  _L();
+  _L(@"%@", url);
+  if ([@"pdf" isEqualToString:url.pathExtension])
+    [_rootViewController openURL:url];
   return YES;
 }
 

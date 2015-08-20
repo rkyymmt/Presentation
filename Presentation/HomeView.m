@@ -89,75 +89,64 @@ typedef enum {
   _pageControl.numberOfPages = itemLists.count;
 }
 
-// - (void)reloadItemAtIndex:(int)index inPage:(int)page {
-//   _L();
-//   if (page < _itemViews.count && index < [_itemViews[page] count]) {
-//     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:YES];
-//     HomeItemView *itemView = _itemViews[page][index];
-//     [itemView reload];
-//     return;
-//   }
+- (void)removeItem:(NSString *)item {
+  _L();
+  HomeItemView *itemView;
+  int page = 0;
+  int index = 0;
+  for (NSArray *itemViewsInPage in _itemViews) {
+    index = 0;
+    for (HomeItemView *iv in itemViewsInPage) {
+      if ([iv.item isEqualToString:item]) {
+        itemView = iv;
+        break;
+      }
+      index++;
+    }
+    if (itemView)
+      break;
+    page++;
+  }
 
-//   NSArray *itemLists = [App.app.itemListManager itemLists];
-//   NSString *identifier = itemLists[page][index];
-//   CGRect itemViewFrame = [self itemViewFrameWithIndex:index inPage:page];
-//   HomeItemView *homeItemView = [[HomeItemView alloc] initWithFrame:itemViewFrame itemIdentifier:identifier];
-//   homeItemView.alpha = 0.0;
-//   [_scrollView addSubview:homeItemView];
+  if (!itemView)
+    return;
+  [FileManager.fileManager removeItem:item];
 
-//   if (_itemViews.count <= page)
-//     [_itemViews addObject:NSMutableArray.new];
-//   [_itemViews[page] addObject:homeItemView];
+  [UIView animateWithDuration:0.4
+          animations:^{
+              itemView.alpha = 0.0;
+            }
+          completion:^(BOOL finished) {
+              [itemView removeFromSuperview];
+              [_itemViews[page] removeObjectAtIndex:index];
+              if ([_itemViews[page] count]) {
+                [self setItemViewsInCurrentPage];
+                return;
+              }
 
-//   [UIView animateWithDuration:0.2
-//           animations:^{
-//               _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * page, 0);
-//             }
-//           completion:^(BOOL animated) {
-//               [UIView animateWithDuration:0.4 animations:^{ homeItemView.alpha = 1.0; }];
-//             }];
-// }
+              [_itemViews removeObjectAtIndex:page];
+              int newPage = MAX(0, page - 1);
+              [UIView animateWithDuration:0.2
+                      animations:^{
+                          _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * newPage, 0);
+                        }
+                      completion:^(BOOL finished) {
+                          _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * _itemViews.count,
+                                                               _scrollView.frame.size.height);
+                          _pageControl.numberOfPages = _itemViews.count;
 
-// - (void)removeItemAtIndex:(int)index inPage:(int)page {
-//   _L();
-//   if (page < _itemViews.count && index < [_itemViews[page] count]) {
-//     HomeItemView *itemView = _itemViews[page][index];
-//     [UIView animateWithDuration:0.4
-//             animations:^{
-//                 itemView.alpha = 0.0;
-//               }
-//             completion:^(BOOL finished) {
-//                 [itemView removeFromSuperview];
-//                 [_itemViews[page] removeObjectAtIndex:index];
-//                 if ([_itemViews[page] count]) {
-//                   [self setItemViewsInCurrentPage];
-//                   return;
-//                 }
-
-//                 [_itemViews removeObjectAtIndex:page];
-//                 int newPage = MAX(0, page - 1);
-//                 [UIView animateWithDuration:0.2
-//                         animations:^{
-//                             _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * newPage, 0);
-//                           }
-//                         completion:^(BOOL finished) {
-//                             _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * _itemViews.count,
-//                                                                  _scrollView.frame.size.height);
-//                             _pageControl.numberOfPages = _itemViews.count;
-
-//                             int p = 0;
-//                             for (NSArray *itemViewsInPage in _itemViews) {
-//                               int i = 0;
-//                               for (HomeItemView *homeItemView in itemViewsInPage) {
-//                                 homeItemView.frame = [self itemViewFrameWithIndex:i inPage:p];
-//                                 i++;
-//                               }
-//                               p++;
-//                             }
-//                           }];
-//               }];
-//   }
-// }
+                          int p = 0;
+                          for (NSArray *itemViewsInPage in _itemViews) {
+                            int i = 0;
+                            for (HomeItemView *homeItemView in itemViewsInPage) {
+                              homeItemView.frame = [self itemViewFrameWithIndex:i inPage:p];
+                              i++;
+                            }
+                            p++;
+                          }
+                        }];
+            }];
+}
 
 #pragma mark - Gesture Recognizer
 
@@ -192,6 +181,7 @@ typedef enum {
               [itemView startAnimating];
             }
           }
+          [_delegate itemDidBeginDragging:_draggingView.item];
           break;
         }
         index++;
@@ -203,12 +193,15 @@ typedef enum {
       if (!_draggingView)
         break;
       _draggingView.center = point;
+      [_delegate itemDidMove:_draggingView.item inRemoveArea:point.y < 0];
       [self sortItemViewsInCurrentPage];
       [self setItemViewsInCurrentPage];
       break;
     }
     case UIGestureRecognizerStateEnded: {
       // _L(@"UIGestureRecognizerStateEnded");
+      NSString *item = _draggingView.item;
+      BOOL inRemoveArea = point.y < 0;
       [self endPagingTimer];
       [self sortItemViewsInCurrentPage];
       _draggingView.alpha = 1.0;
@@ -220,6 +213,7 @@ typedef enum {
           [itemView endAnimating];
         }
       }
+      [_delegate itemDidEndDragging:item inRemoveArea:inRemoveArea];
       break;
     }
     default:
@@ -316,8 +310,7 @@ typedef enum {
     [itemLists addObject:itemList];
   }
 
-  // TODO
-  // [App.app.itemListManager saveItemLists:itemLists];
+  [FileManager.fileManager saveItemLists:itemLists];
 }
 
 #pragma mark - Paging
