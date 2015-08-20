@@ -9,5 +9,5 @@
 
 @interface HomeView : UIView
 - (instancetype)initWithFrame:(CGRect)frame delegate:(id<HomeViewDelegate>)delegate;
-// - (void)removeActionAtIndex:(int)index inPage:(int)page;
+- (void)removeItem:(NSString *)item;
 @end

@@ -20,7 +20,6 @@
   NSArray *itemLists = [NSArray arrayWithContentsOfFile:self.itemListsPath];
   if (!itemLists)
     itemLists = NSArray.new;
-  _L();
   return itemLists;
 }
 
@@ -55,6 +54,14 @@
     [result addObject:@[item]];
   }
   return result;
+}
+
+#pragma mark - remove
+
+- (void)removeItem:(NSString *)item {
+  _L(@"%@", item);
+  NSURL *url = [self.documents URLByAppendingPathComponent:item];
+  [NSFileManager.defaultManager removeItemAtURL:url error:nil];
 }
 
 #pragma mark - Dirs
@@ -115,8 +122,22 @@
     }
     [self createThumbnail:item];
   }
-  _L(@"%@", itemLists);
-  [self saveItemLists:itemLists];
+
+  // mmm...
+  NSMutableArray *newItemLists = NSMutableArray.new;
+  for (NSArray *itemList in itemLists) {
+    NSMutableArray *newItemList = NSMutableArray.new;
+    for (NSString *item in itemList) {
+      NSURL *itemUrl = [self.documents URLByAppendingPathComponent:item];
+      if ([itemUrl checkResourceIsReachableAndReturnError:nil]) {
+        [newItemList addObject:item];
+      }
+    }
+    if (newItemList.count)
+      [newItemLists addObject:newItemList];
+  }
+  _L(@"%@", newItemLists);
+  [self saveItemLists:newItemLists];
 }
 
 #pragma mark - Private

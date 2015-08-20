@@ -41,31 +41,6 @@
   return _item;
 }
 
-- (void)reload {
-  // _L();
-  // [UIView animateWithDuration:0.4
-  //         animations:^{
-  //             self.alpha = 0.0;
-  //           }
-  //         completion:^(BOOL finished) {
-  //             [self reloadData];
-  //             [UIView animateWithDuration:0.4 animations:^{ self.alpha = 1.0; }];
-  //           }];
-}
-
-- (void)reloadData {
-  // _item = [App.app.itemController itemWithIdentifier:_itemIdentifier];
-  // CRGesture *gesture = [App.app.ringController gestureWithIdentifier:_itemIdentifier];
-  // UIImage *gestureImage = [CRCommon imageWithPoints:gesture.pointsString
-  //                                   width:_gestureImageLayer.frame.size.width * 0.6
-  //                                   lineColor:Util.lightGrayColor
-  //                                   pointColor:Util.grayColor];
-  // _gestureImageLayer.contents = (__bridge id)gestureImage.CGImage;
-  // _titleLabel.text = _item.name;
-  // _errorImageLayer.hidden = !_item.hasError;
-}
-
-
 - (void)startAnimating {
   if ([_baseLayer animationForKey:@"transform"]) {
     return;

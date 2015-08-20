@@ -134,6 +134,9 @@
   _trashImageView.alpha = 0.0;
   _reloadButton.alpha = 1.0;
   _helpButton.alpha = 1.0;
+  if (inRemoveArea) {
+    [_homeView removeItem:item];
+  }
 }
 
 @end

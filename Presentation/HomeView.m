@@ -89,46 +89,64 @@ typedef enum {
   _pageControl.numberOfPages = itemLists.count;
 }
 
-// - (void)removeItemAtIndex:(int)index inPage:(int)page {
-//   _L();
-//   if (page < _itemViews.count && index < [_itemViews[page] count]) {
-//     HomeItemView *itemView = _itemViews[page][index];
-//     [UIView animateWithDuration:0.4
-//             animations:^{
-//                 itemView.alpha = 0.0;
-//               }
-//             completion:^(BOOL finished) {
-//                 [itemView removeFromSuperview];
-//                 [_itemViews[page] removeObjectAtIndex:index];
-//                 if ([_itemViews[page] count]) {
-//                   [self setItemViewsInCurrentPage];
-//                   return;
-//                 }
+- (void)removeItem:(NSString *)item {
+  _L();
+  HomeItemView *itemView;
+  int page = 0;
+  int index = 0;
+  for (NSArray *itemViewsInPage in _itemViews) {
+    index = 0;
+    for (HomeItemView *iv in itemViewsInPage) {
+      if ([iv.item isEqualToString:item]) {
+        itemView = iv;
+        break;
+      }
+      index++;
+    }
+    if (itemView)
+      break;
+    page++;
+  }
 
-//                 [_itemViews removeObjectAtIndex:page];
-//                 int newPage = MAX(0, page - 1);
-//                 [UIView animateWithDuration:0.2
-//                         animations:^{
-//                             _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * newPage, 0);
-//                           }
-//                         completion:^(BOOL finished) {
-//                             _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * _itemViews.count,
-//                                                                  _scrollView.frame.size.height);
-//                             _pageControl.numberOfPages = _itemViews.count;
+  if (!itemView)
+    return;
+  [FileManager.fileManager removeItem:item];
 
-//                             int p = 0;
-//                             for (NSArray *itemViewsInPage in _itemViews) {
-//                               int i = 0;
-//                               for (HomeItemView *homeItemView in itemViewsInPage) {
-//                                 homeItemView.frame = [self itemViewFrameWithIndex:i inPage:p];
-//                                 i++;
-//                               }
-//                               p++;
-//                             }
-//                           }];
-//               }];
-//   }
-// }
+  [UIView animateWithDuration:0.4
+          animations:^{
+              itemView.alpha = 0.0;
+            }
+          completion:^(BOOL finished) {
+              [itemView removeFromSuperview];
+              [_itemViews[page] removeObjectAtIndex:index];
+              if ([_itemViews[page] count]) {
+                [self setItemViewsInCurrentPage];
+                return;
+              }
+
+              [_itemViews removeObjectAtIndex:page];
+              int newPage = MAX(0, page - 1);
+              [UIView animateWithDuration:0.2
+                      animations:^{
+                          _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * newPage, 0);
+                        }
+                      completion:^(BOOL finished) {
+                          _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width * _itemViews.count,
+                                                               _scrollView.frame.size.height);
+                          _pageControl.numberOfPages = _itemViews.count;
+
+                          int p = 0;
+                          for (NSArray *itemViewsInPage in _itemViews) {
+                            int i = 0;
+                            for (HomeItemView *homeItemView in itemViewsInPage) {
+                              homeItemView.frame = [self itemViewFrameWithIndex:i inPage:p];
+                              i++;
+                            }
+                            p++;
+                          }
+                        }];
+            }];
+}
 
 #pragma mark - Gesture Recognizer
 
@@ -292,8 +310,7 @@ typedef enum {
     [itemLists addObject:itemList];
   }
 
-  // TODO
-  // [App.app.itemListManager saveItemLists:itemLists];
+  [FileManager.fileManager saveItemLists:itemLists];
 }
 
 #pragma mark - Paging
