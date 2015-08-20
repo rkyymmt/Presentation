@@ -69,6 +69,11 @@
 
 - (void)reload {
   _L();
+  [self reloadInner:nil];
+}
+
+// mmm...
+- (void)reloadInner:(NSString *)item {
   [_homeView removeFromSuperview];
   _homeView = nil;
   [_indicator startAnimating];
@@ -83,6 +88,9 @@
           _homeView = [[HomeView alloc] initWithFrame:homeViewFrame delegate:self];
           [self.view addSubview:_homeView];
           [_indicator stopAnimating];
+          if (item) {
+            [self itemTapped:item];
+          }
         });
     });
 }
@@ -99,6 +107,17 @@
     return (PDFViewController *)vc;
   }
   return nil;
+}
+
+- (void)openURL:(NSURL *)url {
+  _L();
+  if (self.pdfViewController) {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self reloadInner:url.lastPathComponent];
+      }];
+  } else {
+    [self reloadInner:url.lastPathComponent];
+  }
 }
 
 #pragma mark - HomeViewDelegate

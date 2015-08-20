@@ -35,6 +35,11 @@
     }];
 }
 
+- (void)openURL:(NSURL *)url {
+  _L();
+  [_homeViewController openURL:url];
+}
+
 - (void)setActiveGestures:(BOOL)isListMode {
   _L();
   if (isListMode) {

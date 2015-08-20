@@ -3,4 +3,5 @@
 
 @interface HomeViewController : UIViewController
 - (PDFViewController *)pdfViewController;
+- (void)openURL:(NSURL *)url;
 @end
