@@ -89,35 +89,6 @@ typedef enum {
   _pageControl.numberOfPages = itemLists.count;
 }
 
-// - (void)reloadItemAtIndex:(int)index inPage:(int)page {
-//   _L();
-//   if (page < _itemViews.count && index < [_itemViews[page] count]) {
-//     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:YES];
-//     HomeItemView *itemView = _itemViews[page][index];
-//     [itemView reload];
-//     return;
-//   }
-
-//   NSArray *itemLists = [App.app.itemListManager itemLists];
-//   NSString *identifier = itemLists[page][index];
-//   CGRect itemViewFrame = [self itemViewFrameWithIndex:index inPage:page];
-//   HomeItemView *homeItemView = [[HomeItemView alloc] initWithFrame:itemViewFrame itemIdentifier:identifier];
-//   homeItemView.alpha = 0.0;
-//   [_scrollView addSubview:homeItemView];
-
-//   if (_itemViews.count <= page)
-//     [_itemViews addObject:NSMutableArray.new];
-//   [_itemViews[page] addObject:homeItemView];
-
-//   [UIView animateWithDuration:0.2
-//           animations:^{
-//               _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * page, 0);
-//             }
-//           completion:^(BOOL animated) {
-//               [UIView animateWithDuration:0.4 animations:^{ homeItemView.alpha = 1.0; }];
-//             }];
-// }
-
 // - (void)removeItemAtIndex:(int)index inPage:(int)page {
 //   _L();
 //   if (page < _itemViews.count && index < [_itemViews[page] count]) {
@@ -192,6 +163,7 @@ typedef enum {
               [itemView startAnimating];
             }
           }
+          [_delegate itemDidBeginDragging:_draggingView.item];
           break;
         }
         index++;
@@ -203,12 +175,15 @@ typedef enum {
       if (!_draggingView)
         break;
       _draggingView.center = point;
+      [_delegate itemDidMove:_draggingView.item inRemoveArea:point.y < 0];
       [self sortItemViewsInCurrentPage];
       [self setItemViewsInCurrentPage];
       break;
     }
     case UIGestureRecognizerStateEnded: {
       // _L(@"UIGestureRecognizerStateEnded");
+      NSString *item = _draggingView.item;
+      BOOL inRemoveArea = point.y < 0;
       [self endPagingTimer];
       [self sortItemViewsInCurrentPage];
       _draggingView.alpha = 1.0;
@@ -220,6 +195,7 @@ typedef enum {
           [itemView endAnimating];
         }
       }
+      [_delegate itemDidEndDragging:item inRemoveArea:inRemoveArea];
       break;
     }
     default:
