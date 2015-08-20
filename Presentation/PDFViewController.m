@@ -261,7 +261,7 @@
               for (int i = startPage; i < MIN(startPage + 5, _numberOfPages); i++) {
                 UIImageView *imageView = _imageViews[i % 5];
                 if (page != i)
-                  imageView.alpha = 0.0;
+                  imageView.hidden = YES;
                 imageView.frame = [self imageViewFrameWithIndex:i];
                 if (imageView.tag == i)
                   continue;
@@ -271,7 +271,7 @@
             }
           completion:^(BOOL finished) {
               for (UIImageView *imageView in _imageViews) {
-                imageView.alpha = 1.0;
+                imageView.hidden = NO;
                 _listMode = NO;
                 _scrollView.scrollEnabled = YES;
                 [RootViewController.rootViewController setActiveGestures:NO];
