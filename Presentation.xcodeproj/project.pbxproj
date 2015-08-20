@@ -14,6 +14,7 @@
 		7137A7171B85B77C00CE273F /* home_help@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7137A7151B85B77C00CE273F /* home_help@3x.png */; };
 		7137A71A1B85B7FA00CE273F /* navigation_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7137A7181B85B7FA00CE273F /* navigation_close@2x.png */; };
 		7137A71B1B85B7FA00CE273F /* navigation_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7137A7191B85B7FA00CE273F /* navigation_close@3x.png */; };
+		7137A71C1B85C24500CE273F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A37A7C1B82F82C00962116 /* Images.xcassets */; };
 		71A37A721B82F82C00962116 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37A711B82F82C00962116 /* main.m */; };
 		71A37A751B82F82C00962116 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37A741B82F82C00962116 /* AppDelegate.m */; };
 		71A37A7D1B82F82C00962116 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A37A7C1B82F82C00962116 /* Images.xcassets */; };
@@ -443,6 +444,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7137A71C1B85C24500CE273F /* Images.xcassets in Resources */,
 				71A37AB61B82FD9400962116 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -668,6 +670,8 @@
 		71A37ABB1B82FD9400962116 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = PDFImporter/PDFImporter.entitlements;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -683,6 +687,8 @@
 		71A37ABC1B82FD9400962116 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = PDFImporter/PDFImporter.entitlements;
 				INFOPLIST_FILE = PDFImporter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
