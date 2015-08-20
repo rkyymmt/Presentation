@@ -147,6 +147,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7137A70C1B85A4A800CE273F /* PDFViewController */ = {
+			isa = PBXGroup;
+			children = (
+				71A37AD81B837EAC00962116 /* PDFViewController.h */,
+				71A37AD91B837EAC00962116 /* PDFViewController.m */,
+				71ED589C1B844D1C00FFDF0A /* NavigationBar.h */,
+				71ED589D1B844D1C00FFDF0A /* NavigationBar.m */,
+				71ED58AF1B848E9700FFDF0A /* PDFFooter.h */,
+				71ED58B01B848E9700FFDF0A /* PDFFooter.m */,
+				71ED58BB1B849D4000FFDF0A /* PDFListControl.h */,
+				71ED58BC1B849D4000FFDF0A /* PDFListControl.m */,
+			);
+			name = PDFViewController;
+			sourceTree = "<group>";
+		};
+		7137A70D1B85A4BC00CE273F /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				71A37AC91B833E4B00962116 /* HomeViewController.h */,
+				71A37ACA1B833E4B00962116 /* HomeViewController.m */,
+				71A37AD21B83536300962116 /* HomeView.h */,
+				71A37AD31B83536300962116 /* HomeView.m */,
+				71A37AD51B83537600962116 /* HomeItemView.h */,
+				71A37AD61B83537600962116 /* HomeItemView.m */,
+			);
+			name = HomeViewController;
+			sourceTree = "<group>";
+		};
 		71A37A631B82F82C00962116 = {
 			isa = PBXGroup;
 			children = (
@@ -180,22 +208,10 @@
 				71A37A741B82F82C00962116 /* AppDelegate.m */,
 				71A37AC61B833A6000962116 /* RootViewController.h */,
 				71A37AC71B833A6000962116 /* RootViewController.m */,
-				71A37AC91B833E4B00962116 /* HomeViewController.h */,
-				71A37ACA1B833E4B00962116 /* HomeViewController.m */,
 				71A37ACC1B8340F400962116 /* FileManager.h */,
 				71A37ACD1B8340F400962116 /* FileManager.m */,
-				71A37AD21B83536300962116 /* HomeView.h */,
-				71A37AD31B83536300962116 /* HomeView.m */,
-				71A37AD51B83537600962116 /* HomeItemView.h */,
-				71A37AD61B83537600962116 /* HomeItemView.m */,
-				71A37AD81B837EAC00962116 /* PDFViewController.h */,
-				71A37AD91B837EAC00962116 /* PDFViewController.m */,
-				71ED589C1B844D1C00FFDF0A /* NavigationBar.h */,
-				71ED589D1B844D1C00FFDF0A /* NavigationBar.m */,
-				71ED58AF1B848E9700FFDF0A /* PDFFooter.h */,
-				71ED58B01B848E9700FFDF0A /* PDFFooter.m */,
-				71ED58BB1B849D4000FFDF0A /* PDFListControl.h */,
-				71ED58BC1B849D4000FFDF0A /* PDFListControl.m */,
+				7137A70D1B85A4BC00CE273F /* HomeViewController */,
+				7137A70C1B85A4A800CE273F /* PDFViewController */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
