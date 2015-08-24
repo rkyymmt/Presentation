@@ -157,6 +157,7 @@
 
 - (void)reload {
   _L();
+  [_imageViews[0] setFrame:[self imageViewFrameWithIndex:0]];
   [self setPage:0];
 }
 
@@ -360,16 +361,14 @@
 - (void)pageChanged {
   _L();
   @synchronized (self) {
-    if (_numberOfPages <= 5)
-      return;
     int currentPage = self.currentPage;
     int startPage = MAX(0, currentPage - 2);
     for (int i = startPage; i < MIN(startPage + 5, _numberOfPages); i++) {
       UIImageView *imageView = _imageViews[i % 5];
+      imageView.frame = [self imageViewFrameWithIndex:i];
       if (imageView.tag == i)
         continue;
       imageView.tag = i;
-      imageView.frame = [self imageViewFrameWithIndex:i];
       imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
     }
   }
