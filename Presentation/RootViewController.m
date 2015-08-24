@@ -53,7 +53,7 @@
   _ringApp = [[CRApplication alloc] initWithDelegate:self background:NO];
 
   NSDictionary *gestures = @{ @"reload" : CR_POINTS_CIRCLE,
-                              @"list" : CR_POINTS_PIGTALE,
+                              @"list" : CR_POINTS_PIGTAIL,
                               @"prev" : CR_POINTS_LEFT,
                               @"next" : CR_POINTS_RIGHT,
                               @"one" : CR_POINTS_ONE,

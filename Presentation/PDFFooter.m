@@ -15,7 +15,7 @@
     _delegate = delegate;
     self.backgroundColor = UIColor.blackColor;
 
-    NSArray *points = @[CR_POINTS_LEFT, CR_POINTS_CIRCLE, CR_POINTS_PIGTALE, CR_POINTS_RIGHT];
+    NSArray *points = @[CR_POINTS_LEFT, CR_POINTS_CIRCLE, CR_POINTS_PIGTAIL, CR_POINTS_RIGHT];
     for (int i = 0; i < points.count; i++) {
       UIImage *image = [CRCommon imageWithPoints:points[i]
                                  width:48
