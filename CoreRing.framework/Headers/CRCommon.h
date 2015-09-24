@@ -11,7 +11,8 @@ typedef NS_ENUM(int, CRRingEvent) {
 typedef NS_ENUM(int, CRRingMode) {
   CRRingModeGesture,
   CRRingModeQuaternion,
-  CRRingModePoint
+  CRRingModePoint,
+  CRRingModeEvent
 };
 
 typedef struct {
