@@ -255,9 +255,11 @@
 
 - (void)setPageInList:(int)indexInList {
   _L();
+  int page = [self currentListPage] * 4 + indexInList;
+  if (page >= _numberOfPages)
+    return;
   [UIView animateWithDuration:0.2
           animations:^{
-              int page = [self currentListPage] * 4 + indexInList;
               [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:NO];
 
               int startPage = MAX(0, page - 2);
@@ -275,14 +277,14 @@
           completion:^(BOOL finished) {
               for (UIImageView *imageView in _imageViews) {
                 imageView.hidden = NO;
-                _listMode = NO;
-                _scrollView.scrollEnabled = YES;
-                [RootViewController.rootViewController setActiveGestures:NO];
-                if (0.0 == _navigationBar.alpha) {
-                  [self hideControls];
-                } else {
-                  [self showControls];
-                }
+              }
+              _listMode = NO;
+              _scrollView.scrollEnabled = YES;
+              [RootViewController.rootViewController setActiveGestures:NO];
+              if (0.0 == _navigationBar.alpha) {
+                [self hideControls];
+              } else {
+                [self showControls];
               }
             }];
 }
