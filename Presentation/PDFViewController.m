@@ -310,6 +310,7 @@
       CGFloat viewWidth = (self.view.bounds.size.width - 32) / 4;
       int startIndex = listPage * 4;
       for (int i = startIndex; i < MIN(startIndex + 4, _numberOfPages); i++) {
+        _listControl.numberButtons[i % 4].hidden = NO;
         UIImageView *imageView = _imageViews[i % 5];
         imageView.frame = CGRectMake(offsetX + viewWidth * (i % 4) + 4,
                                      _scrollView.frame.size.height * 0.6 - viewWidth,
@@ -319,6 +320,12 @@
           continue;
         imageView.tag = i;
         imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
+      }
+
+      _listControl.leftButton.alpha = (listPage == 0) ? 0.0 : 1.0;
+      _listControl.rightButton.alpha = ((listPage + 1) * 4 >= _numberOfPages) ? 0.0 : 1.0;
+      for (int i = startIndex; i < startIndex + 4; i++) {
+        _listControl.numberButtons[i % 4].alpha = (i >= _numberOfPages) ? 0.0 : 1.0;
       }
     }];
 }
