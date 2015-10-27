@@ -21,6 +21,15 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = UIColor.blackColor;
+
+  if (![NSUserDefaults.standardUserDefaults boolForKey:@"initialized"]) {
+    NSString *initialPdfPath = [NSBundle.mainBundle pathForResource:@"ring" ofType:@"pdf"];
+    [NSFileManager.defaultManager copyItemAtPath:initialPdfPath
+                                  toPath:[FileManager.fileManager.documents URLByAppendingPathComponent:@"ring.pdf"].path
+                                  error:nil];
+    [NSUserDefaults.standardUserDefaults setBool:YES forKey:@"initialized"];
+    [NSUserDefaults.standardUserDefaults synchronize];
+  }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

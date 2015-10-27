@@ -2,6 +2,7 @@
 
 @interface FileManager : NSObject
 + (FileManager *)fileManager;
+- (NSURL *)documents;
 - (void)reload;
 - (NSArray *)itemLists;
 - (void)saveItemLists:(NSArray *)itemLists;
