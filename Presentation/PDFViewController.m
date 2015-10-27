@@ -19,6 +19,7 @@
   PDFListControl *_listControl;
   int _lastPage;
   BOOL _listMode;
+  BOOL _backgroundLoad;
 }
 
 - (instancetype)initWithItem:(NSString *)item {
@@ -26,6 +27,19 @@
   if (self) {
     _item = item;
     _numberOfPages = [FileManager.fileManager numberOfPages:_item];
+
+    _backgroundLoad = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        for (int i = 0; i < _numberOfPages; i++) {
+          if (!_backgroundLoad) {
+            _L(@"Cancel background loading");
+            break;
+          }
+          _L(@"Loading %d / %d", i, _numberOfPages);
+          [FileManager.fileManager imageWithItem:_item page:i + 1];
+          [NSThread sleepForTimeInterval:0.1];
+        }
+      });
   }
   return self;
 }
@@ -74,6 +88,7 @@
 
 - (void)leftButtonPressed {
   _L();
+  _backgroundLoad = NO;
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
