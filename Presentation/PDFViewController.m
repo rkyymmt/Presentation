@@ -66,6 +66,8 @@
   _footer = [[PDFFooter alloc] initWithDelegate:self];
   _footer.alpha = 0.0;
   [self.view addSubview:_footer];
+
+  [RootViewController.rootViewController setActiveGestures:NO];
 }
 
 #pragma mark - UI Event
