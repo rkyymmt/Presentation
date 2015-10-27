@@ -225,7 +225,7 @@
 - (void)listNext {
   _L();
   int nextListPage = self.currentListPage + 1;
-  if (nextListPage * 4 + 1 >= _numberOfPages)
+  if (nextListPage * 4 >= _numberOfPages)
     return;
 
   int currentPage = self.currentPage;
