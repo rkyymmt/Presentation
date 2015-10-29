@@ -16,6 +16,7 @@
 		7137A71B1B85B7FA00CE273F /* navigation_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7137A7191B85B7FA00CE273F /* navigation_close@3x.png */; };
 		7137A71C1B85C24500CE273F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A37A7C1B82F82C00962116 /* Images.xcassets */; };
 		7137A71F1B85CC0500CE273F /* home_header_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 7137A71E1B85CC0500CE273F /* home_header_delete.png */; };
+		7151FDFB1BDF6DD600990D72 /* ring.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7151FDFA1BDF6DD600990D72 /* ring.pdf */; };
 		71A37A721B82F82C00962116 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37A711B82F82C00962116 /* main.m */; };
 		71A37A751B82F82C00962116 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37A741B82F82C00962116 /* AppDelegate.m */; };
 		71A37A7D1B82F82C00962116 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A37A7C1B82F82C00962116 /* Images.xcassets */; };
@@ -32,9 +33,10 @@
 		71A37AD41B83536300962116 /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD31B83536300962116 /* HomeView.m */; };
 		71A37AD71B83537600962116 /* HomeItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD61B83537600962116 /* HomeItemView.m */; };
 		71A37ADA1B837EAC00962116 /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A37AD91B837EAC00962116 /* PDFViewController.m */; };
+		71C9373E1BE20AE90028F887 /* CoreRing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71ED589F1B8452BF00FFDF0A /* CoreRing.framework */; };
+		71C937401BE20B050028F887 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C9373F1BE20B050028F887 /* libsqlite3.tbd */; };
+		71C937421BE20B110028F887 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C937411BE20B110028F887 /* CoreBluetooth.framework */; };
 		71ED589E1B844D1C00FFDF0A /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ED589D1B844D1C00FFDF0A /* NavigationBar.m */; };
-		71ED58A01B8452BF00FFDF0A /* CoreRing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71ED589F1B8452BF00FFDF0A /* CoreRing.framework */; };
-		71ED58A21B8454A100FFDF0A /* CoreRing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71ED589F1B8452BF00FFDF0A /* CoreRing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71ED58B11B848E9700FFDF0A /* PDFFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ED58B01B848E9700FFDF0A /* PDFFooter.m */; };
 		71ED58B91B848F3300FFDF0A /* splash_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B71B848F3300FFDF0A /* splash_logo@2x.png */; };
 		71ED58BA1B848F3300FFDF0A /* splash_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71ED58B81B848F3300FFDF0A /* splash_logo@3x.png */; };
@@ -70,17 +72,6 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		71ED58A31B8454A100FFDF0A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				71ED58A21B8454A100FFDF0A /* CoreRing.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +83,7 @@
 		7137A7181B85B7FA00CE273F /* navigation_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation_close@2x.png"; sourceTree = "<group>"; };
 		7137A7191B85B7FA00CE273F /* navigation_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation_close@3x.png"; sourceTree = "<group>"; };
 		7137A71E1B85CC0500CE273F /* home_header_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_header_delete.png; sourceTree = "<group>"; };
+		7151FDFA1BDF6DD600990D72 /* ring.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ring.pdf; sourceTree = "<group>"; };
 		71A37A6C1B82F82C00962116 /* Presentation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Presentation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71A37A701B82F82C00962116 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71A37A711B82F82C00962116 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -125,6 +117,8 @@
 		71A37AD61B83537600962116 /* HomeItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeItemView.m; sourceTree = "<group>"; };
 		71A37AD81B837EAC00962116 /* PDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
 		71A37AD91B837EAC00962116 /* PDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
+		71C9373F1BE20B050028F887 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		71C937411BE20B110028F887 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		71ED589C1B844D1C00FFDF0A /* NavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
 		71ED589D1B844D1C00FFDF0A /* NavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBar.m; sourceTree = "<group>"; };
 		71ED589F1B8452BF00FFDF0A /* CoreRing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreRing.framework; sourceTree = "<group>"; };
@@ -141,7 +135,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71ED58A01B8452BF00FFDF0A /* CoreRing.framework in Frameworks */,
+				71C937421BE20B110028F887 /* CoreBluetooth.framework in Frameworks */,
+				71C937401BE20B050028F887 /* libsqlite3.tbd in Frameworks */,
+				71C9373E1BE20AE90028F887 /* CoreRing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +189,8 @@
 		71A37A631B82F82C00962116 = {
 			isa = PBXGroup;
 			children = (
+				71C937411BE20B110028F887 /* CoreBluetooth.framework */,
+				71C9373F1BE20B050028F887 /* libsqlite3.tbd */,
 				71ED589F1B8452BF00FFDF0A /* CoreRing.framework */,
 				71A37A6E1B82F82C00962116 /* Presentation */,
 				71A37A881B82F82C00962116 /* PresentationTests */,
@@ -302,6 +300,7 @@
 				71A37AC51B83345B00962116 /* Presentation.entitlements */,
 				71A37A7C1B82F82C00962116 /* Images.xcassets */,
 				71A37A7E1B82F82C00962116 /* LaunchScreen.xib */,
+				7151FDFA1BDF6DD600990D72 /* ring.pdf */,
 			);
 			name = resource;
 			sourceTree = "<group>";
@@ -317,7 +316,6 @@
 				71A37A691B82F82C00962116 /* Frameworks */,
 				71A37A6A1B82F82C00962116 /* Resources */,
 				71A37AA91B82FAF400962116 /* Embed App Extensions */,
-				71ED58A31B8454A100FFDF0A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -423,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7137A71F1B85CC0500CE273F /* home_header_delete.png in Resources */,
+				7151FDFB1BDF6DD600990D72 /* ring.pdf in Resources */,
 				7137A71A1B85B7FA00CE273F /* navigation_close@2x.png in Resources */,
 				7137A71B1B85B7FA00CE273F /* navigation_close@3x.png in Resources */,
 				71A37A801B82F82C00962116 /* LaunchScreen.xib in Resources */,
@@ -539,7 +538,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -557,7 +556,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -585,7 +584,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -596,7 +595,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -611,6 +610,7 @@
 				CODE_SIGN_ENTITLEMENTS = Presentation/Presentation.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -630,6 +630,7 @@
 				CODE_SIGN_ENTITLEMENTS = Presentation/Presentation.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -646,6 +647,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -663,6 +665,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PresentationTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

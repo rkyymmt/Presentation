@@ -13,13 +13,7 @@
 
 @interface CRApplication : NSObject
 
-+ (void)applicationWillResignActive:(UIApplication *)application;
-+ (void)applicationDidBecomeActive:(UIApplication *)application;
-
 - (instancetype)initWithDelegate:(id<CRApplicationDelegate>)delegate background:(BOOL)background;
-
-- (void)registerApp:(NSString *)name callback:(NSString *)callback;
-- (NSString *)registeredAppName;
 
 - (BOOL)installGestures:(NSDictionary *)gestures error:(NSError **)error;
 - (NSArray *)installedGestureIdentifiers;
@@ -29,4 +23,5 @@
 
 - (void)start;
 - (void)setRingMode:(CRRingMode)ringMode;
+
 @end

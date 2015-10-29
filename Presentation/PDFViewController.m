@@ -18,7 +18,9 @@
   PDFFooter *_footer;
   PDFListControl *_listControl;
   int _lastPage;
+  BOOL _controlVisible;
   BOOL _listMode;
+  BOOL _backgroundLoad;
 }
 
 - (instancetype)initWithItem:(NSString *)item {
@@ -26,6 +28,19 @@
   if (self) {
     _item = item;
     _numberOfPages = [FileManager.fileManager numberOfPages:_item];
+
+    _backgroundLoad = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        for (int i = 0; i < _numberOfPages; i++) {
+          if (!_backgroundLoad) {
+            _L(@"Cancel background loading");
+            break;
+          }
+          _L(@"Loading %d / %d", i, _numberOfPages);
+          [FileManager.fileManager imageWithItem:_item page:i + 1];
+          [NSThread sleepForTimeInterval:0.1];
+        }
+      });
   }
   return self;
 }
@@ -55,8 +70,8 @@
   [_scrollView addGestureRecognizer:tap];
 
   _navigationBar = [[NavigationBar alloc] initWithDelegate:self];
-  _navigationBar.titleLabel.text = _item;
   _navigationBar.alpha = 0.0;
+  _navigationBar.titleLabel.text = [NSString stringWithFormat:@"%@        %d", _item, 1];
   [self.view addSubview:_navigationBar];
 
   _listControl = [[PDFListControl alloc] initWithDelegate:self];
@@ -66,12 +81,16 @@
   _footer = [[PDFFooter alloc] initWithDelegate:self];
   _footer.alpha = 0.0;
   [self.view addSubview:_footer];
+
+
+  [RootViewController.rootViewController setActiveGestures:NO];
 }
 
 #pragma mark - UI Event
 
 - (void)leftButtonPressed {
   _L();
+  _backgroundLoad = NO;
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -163,6 +182,7 @@
 
 - (void)setPage:(int)page {
   _L();
+  _navigationBar.titleLabel.text = [NSString stringWithFormat:@"%@        %d", _item, page + 1];
   [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:YES];
 }
 
@@ -186,7 +206,7 @@
     }
   }
 
-  if (0.0 == _navigationBar.alpha) {
+  if (!_controlVisible) {
     [self hideControls];
   } else {
     [self showControls];
@@ -225,7 +245,7 @@
 - (void)listNext {
   _L();
   int nextListPage = self.currentListPage + 1;
-  if (nextListPage * 4 + 1 >= _numberOfPages)
+  if (nextListPage * 4 >= _numberOfPages)
     return;
 
   int currentPage = self.currentPage;
@@ -253,9 +273,14 @@
 
 - (void)setPageInList:(int)indexInList {
   _L();
+  int page = [self currentListPage] * 4 + indexInList;
+  if (page >= _numberOfPages)
+    return;
+
+  _navigationBar.titleLabel.text = [NSString stringWithFormat:@"%@        %d", _item, page + 1];
+
   [UIView animateWithDuration:0.2
           animations:^{
-              int page = [self currentListPage] * 4 + indexInList;
               [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * page, 0) animated:NO];
 
               int startPage = MAX(0, page - 2);
@@ -273,14 +298,14 @@
           completion:^(BOOL finished) {
               for (UIImageView *imageView in _imageViews) {
                 imageView.hidden = NO;
-                _listMode = NO;
-                _scrollView.scrollEnabled = YES;
-                [RootViewController.rootViewController setActiveGestures:NO];
-                if (0.0 == _navigationBar.alpha) {
-                  [self hideControls];
-                } else {
-                  [self showControls];
-                }
+              }
+              _listMode = NO;
+              _scrollView.scrollEnabled = YES;
+              [RootViewController.rootViewController setActiveGestures:NO];
+              if (!_controlVisible) {
+                [self hideControls];
+              } else {
+                [self showControls];
               }
             }];
 }
@@ -302,12 +327,22 @@
 }
 
 - (void)setListPage:(int)listPage {
+  _L();
+  int page = listPage * 4;
+  int lastPage = MIN(page + 4, _numberOfPages);
+  if (page + 1 == lastPage) {
+    _navigationBar.titleLabel.text = [NSString stringWithFormat:@"%@        %d", _item, page + 1];
+  } else {
+    _navigationBar.titleLabel.text = [NSString stringWithFormat:@"%@        %d - %d", _item, page + 1, lastPage];
+  }
+
   [UIView animateWithDuration:0.2 animations:^{
       int currentPage = self.currentPage;
       CGFloat offsetX = currentPage * _scrollView.frame.size.width + 16;
       CGFloat viewWidth = (self.view.bounds.size.width - 32) / 4;
       int startIndex = listPage * 4;
       for (int i = startIndex; i < MIN(startIndex + 4, _numberOfPages); i++) {
+        _listControl.numberButtons[i % 4].hidden = NO;
         UIImageView *imageView = _imageViews[i % 5];
         imageView.frame = CGRectMake(offsetX + viewWidth * (i % 4) + 4,
                                      _scrollView.frame.size.height * 0.6 - viewWidth,
@@ -317,6 +352,12 @@
           continue;
         imageView.tag = i;
         imageView.image = [FileManager.fileManager imageWithItem:_item page:i + 1];
+      }
+
+      _listControl.leftButton.alpha = (listPage == 0) ? 0.0 : 1.0;
+      _listControl.rightButton.alpha = ((listPage + 1) * 4 >= _numberOfPages) ? 0.0 : 1.0;
+      for (int i = startIndex; i < startIndex + 4; i++) {
+        _listControl.numberButtons[i % 4].alpha = (i >= _numberOfPages) ? 0.0 : 1.0;
       }
     }];
 }
@@ -378,7 +419,7 @@
 
 - (void)toggleControls {
   _L();
-  if (0.0 == _navigationBar.alpha) {
+  if (!_controlVisible) {
     [self showControls];
   } else {
     [self hideControls];
@@ -387,6 +428,7 @@
 
 - (void)showControls {
   _L();
+  _controlVisible = YES;
   [UIView animateWithDuration:0.2 animations:^{
       _navigationBar.alpha = 1.0;
       if (_listMode) {
@@ -401,8 +443,13 @@
 
 - (void)hideControls {
   _L();
+  _controlVisible = NO;
   [UIView animateWithDuration:0.2 animations:^{
-      _navigationBar.alpha = 0.0;
+      if (_listMode) {
+        _navigationBar.alpha = 1.0;
+      } else {
+        _navigationBar.alpha = 0.0;
+      }
       _listControl.alpha = 0.0;
       _footer.alpha = 0.0;
     }];

@@ -23,16 +23,6 @@
   return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-  _L();
-  [CRApplication applicationWillResignActive:application];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-  _L();
-  [CRApplication applicationDidBecomeActive:application];
-}
-
 - (BOOL)application:(UIApplication *)application
         openURL:(NSURL *)url
         sourceApplication:(NSString *)sourceApplication
